@@ -2,7 +2,6 @@
 .idea/
 
 # misc
-data/
 misc/
 *temp*
 *.png
