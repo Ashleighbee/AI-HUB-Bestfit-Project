@@ -176,11 +176,44 @@ def write_house_data(_data):
     for line in _data:
         writer.writerow(line)
 
+def load_crime_rate_by_precinct(filename):
+    import json
+
+    def my_obj_pairs_hook(lst): # Deal with duplicate keys in json
+        result = {}
+        count = {}
+        for key, val in lst:
+            if key in count:
+                count[key] = 1 + count[key]
+            else:
+                count[key] = 1
+            if key in result:
+                if count[key] > 2:
+                    result[key].append(val)
+                else:
+                    result[key] = [result[key], val]
+            else:
+                result[key] = val
+        return result
+
+    raw = json.load(open(filename), object_pairs_hook=my_obj_pairs_hook)
+
+    per1000_list = {}
+
+    for sub_list in raw.values():
+        if type(sub_list) == list:
+            for item in sub_list:
+                per1000_list[item['name']] = item['per1000']
+        elif type(sub_list) == dict:
+            per1000_list[sub_list['name']] = sub_list['per1000']
+
+    print('')
 
 if __name__ == "__main__":
     # houses = load_list('listings.csv')
-    houses = load_housing('../data/housing.csv')
-    houses = counting_sub(houses)
+    # houses = load_housing('../data/housing.csv')
+    # houses = counting_sub(houses)
     # print(houses)
     # write_house_data(houses)
     # load_subway('subway.csv')
+    load_crime_rate_by_precinct('../data/crime.json')
