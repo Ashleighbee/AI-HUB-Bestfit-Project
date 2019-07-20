@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from collections import OrderedDict
 import re
+import pandas as pd
 
 # browser = webdriver.Firefox()
 # url = 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot'
@@ -338,9 +339,23 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
 
         count += 1
         if count % 500 == 0:
-            print(count)    # Print progress
+            print(count) # Print progress
 
     return crime_rate_by_housing
+
+def add_to_main(filename):
+    crime_rate_dic = cal_crime_rate_by_housing()
+    retVal = []
+    for key in crime_rate_dic.keys():
+        val = crime_rate_dic[key]
+        retVal.append(val)
+    dic = {"crime_rate":retVal}
+    df1 = pd.DataFrame(dic)
+    df2 = pd.read_csv("../data/housing_all.csv")
+    data = df1["crime_rate"]
+    df2["crime_rate"] = data
+    df2 .to_csv("../data/housing_all.csv")
+
 
 
 if __name__ == "__main__":
@@ -350,4 +365,4 @@ if __name__ == "__main__":
     # print(houses)
     # write_house_data(houses)
     # load_subway('subway.csv')
-    cal_crime_rate_by_housing(filename='../data/housing_all.csv')
+    add_to_main(filename='../data/housing_all.csv')
