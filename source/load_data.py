@@ -221,7 +221,8 @@ def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
              Some precincts have multiple regions.
              return format:
              {
-                "1": [[(-70.1, 40.2), (-70.0, 40.1)], [(-70.1, 40.2), (-70.0, 40.1)]]
+                "1": [[(-70.1, 40.2), (-70.0, 40.1)], [(-70.1, 40.2), (-70.0, 40.1)], ...]
+                # [[Cords of region 1], [Cords,of regions2], ...]
                 ......
              }
     """
@@ -240,18 +241,18 @@ def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
             boundary_list[f'{line[3]}'].append([])
 
             for j in range(len(cords[i])):
-                lo = cords[i][j].split(' ')[0]
-                la = cords[i][j].split(' ')[1]
+                lo = float(cords[i][j].split(' ')[0])
+                la = float(cords[i][j].split(' ')[1])
                 boundary_list[f'{line[3]}'][i].append((lo, la))
 
     return boundary_list
 
 def is_pt_in_poly(aLon, aLat, pointList) -> bool:
-    '''
+    """
     :param aLon: double 经度
     :param aLat: double 纬度
     :param pointList: list [(lon, lat)...] 多边形点的顺序需根据顺时针或逆时针，不能乱
-    '''
+    """
 
     iSum = 0
     iCount = len(pointList)
@@ -276,7 +277,7 @@ def is_pt_in_poly(aLon, aLat, pointList) -> bool:
 
             if abs(pLat1 - pLat2) > 0:
 
-                pLon = pLon1 - ((pLon1 - pLon2) * (pLat1 - aLat)) / (pLat1 - pLat2);
+                pLon = pLon1 - ((pLon1 - pLon2) * (pLat1 - aLat)) / (pLat1 - pLat2)
 
                 if pLon < aLon:
                     iSum += 1
