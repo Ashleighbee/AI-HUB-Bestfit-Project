@@ -1,0 +1,1090 @@
+{
+  "1": {
+    "crime_count": 96,
+    "name": "60th Precinct",
+    "pct": 60,
+    "per1000": 0.9195,
+    "pop": 104400,
+    "type": "Crimes"
+  },
+  "2": {
+    "crime_count": 78,
+    "name": "61st Precinct",
+    "pct": 61,
+    "per1000": 0.4889,
+    "pop": 159528,
+    "type": "Crimes"
+  },
+  "3": {
+    "crime_count": 64,
+    "name": "63rd Precinct",
+    "pct": 63,
+    "per1000": 0.5891,
+    "pop": 108646,
+    "type": "Crimes"
+  },
+  "4": {
+    "crime_count": 56,
+    "name": "69th Precinct",
+    "pct": 69,
+    "per1000": 0.6629,
+    "pop": 84480,
+    "type": "Crimes"
+  },
+  "5": {
+    "crime_count": 130,
+    "name": "67th Precinct",
+    "pct": 67,
+    "per1000": 0.8373,
+    "pop": 155252,
+    "type": "Crimes"
+  },
+  "6": {
+    "crime_count": 99,
+    "name": "72nd Precinct",
+    "pct": 72,
+    "per1000": 0.7843,
+    "pop": 126230,
+    "type": "Crimes"
+  },
+  "7": {
+    "crime_count": 288,
+    "name": "75th Precinct",
+    "pct": 75,
+    "per1000": 1.571,
+    "pop": 183328,
+    "type": "Crimes"
+  },
+  "8": {
+    "crime_count": 161,
+    "name": "79th Precinct",
+    "pct": 79,
+    "per1000": 1.7837,
+    "pop": 90263,
+    "type": "Crimes"
+  },
+  "9": {
+    "crime_count": 113,
+    "name": "90th Precinct",
+    "pct": 90,
+    "per1000": 0.9672,
+    "pop": 116836,
+    "type": "Crimes"
+  },
+  "10": {
+    "crime_count": 54,
+    "name": "94th Precinct",
+    "pct": 94,
+    "per1000": 0.9601,
+    "pop": 56247,
+    "type": "Crimes"
+  },
+  "11": {
+    "crime_count": 39,
+    "name": "100th Precinct",
+    "pct": 100,
+    "per1000": 0.814,
+    "pop": 47913,
+    "type": "Crimes"
+  },
+  "13": {
+    "crime_count": 142,
+    "name": "104th Precinct",
+    "pct": 104,
+    "per1000": 0.8344,
+    "pop": 170190,
+    "type": "Crimes"
+  },
+  "15": {
+    "crime_count": 110,
+    "name": "106th Precinct",
+    "pct": 106,
+    "per1000": 0.8984,
+    "pop": 122441,
+    "type": "Crimes"
+  },
+  "20": {
+    "crime_count": 129,
+    "name": "113rd Precinct",
+    "pct": 113,
+    "per1000": 1.0738,
+    "pop": 120132,
+    "type": "Crimes"
+  },
+  "23": {
+    "crime_count": 65,
+    "name": "120th Precinct",
+    "pct": 120,
+    "per1000": 0.5752,
+    "pop": 113008,
+    "type": "Crimes"
+  },
+  "24": {
+    "crime_count": 61,
+    "name": "121st Precinct",
+    "pct": 121,
+    "per1000": 0.5139,
+    "pop": 118708,
+    "type": "Crimes"
+  },
+  "25": {
+    "crime_count": 47,
+    "name": "122nd Precinct",
+    "pct": 122,
+    "per1000": 0.3382,
+    "pop": 138982,
+    "type": "Crimes"
+  },
+  "26": {
+    "crime_count": 19,
+    "name": "123rd Precinct",
+    "pct": 123,
+    "per1000": 0.1938,
+    "pop": 98032,
+    "type": "Crimes"
+  },
+  "27": {
+    "crime_count": 114,
+    "name": "1st Precinct",
+    "pct": 1,
+    "per1000": 1.7097,
+    "pop": 66679,
+    "type": "Crimes"
+  },
+  "28": {
+    "crime_count": 71,
+    "name": "7th Precinct",
+    "pct": 7,
+    "per1000": 1.2624,
+    "pop": 56240,
+    "type": "Crimes"
+  },
+  "30": {
+    "crime_count": 122,
+    "name": "73rd Precinct",
+    "pct": 73,
+    "per1000": 1.4109,
+    "pop": 86468,
+    "type": "Crimes"
+  },
+  "31": {
+    "crime_count": 124,
+    "name": "81st Precinct",
+    "pct": 81,
+    "per1000": 1.977,
+    "pop": 62722,
+    "type": "Crimes"
+  },
+  "32": {
+    "crime_count": 86,
+    "name": "71st Precinct",
+    "pct": 71,
+    "per1000": 0.8737,
+    "pop": 98429,
+    "type": "Crimes"
+  },
+  "33": {
+    "crime_count": 98,
+    "name": "62nd Precinct",
+    "pct": 62,
+    "per1000": 0.5385,
+    "pop": 181981,
+    "type": "Crimes"
+  },
+  "34": {
+    "crime_count": 74,
+    "name": "66th Precinct",
+    "pct": 66,
+    "per1000": 0.3867,
+    "pop": 191382,
+    "type": "Crimes"
+  },
+  "35": {
+    "crime_count": 67,
+    "name": "68th Precinct",
+    "pct": 68,
+    "per1000": 0.5382,
+    "pop": 124491,
+    "type": "Crimes"
+  },
+  "36": {
+    "crime_count": 99,
+    "name": "70th Precinct",
+    "pct": 70,
+    "per1000": 0.6162,
+    "pop": 160664,
+    "type": "Crimes"
+  },
+  "37": {
+    "crime_count": 21,
+    "name": "76th Precinct",
+    "pct": 76,
+    "per1000": 0.4812,
+    "pop": 43643,
+    "type": "Crimes"
+  },
+  "38": {
+    "crime_count": 83,
+    "name": "77th Precinct",
+    "pct": 77,
+    "per1000": 0.9147,
+    "pop": 90744,
+    "type": "Crimes"
+  },
+  "39": {
+    "crime_count": 66,
+    "name": "78th Precinct",
+    "pct": 78,
+    "per1000": 0.9893,
+    "pop": 66715,
+    "type": "Crimes"
+  },
+  "40": {
+    "crime_count": 111,
+    "name": "83rd Precinct",
+    "pct": 83,
+    "per1000": 0.9855,
+    "pop": 112634,
+    "type": "Crimes"
+  },
+  "41": {
+    "crime_count": 102,
+    "name": "84th Precinct",
+    "pct": 84,
+    "per1000": 2.1164,
+    "pop": 48196,
+    "type": "Crimes"
+  },
+  "42": {
+    "crime_count": 88,
+    "name": "5th Precinct",
+    "pct": 5,
+    "per1000": 1.6704,
+    "pop": 52683,
+    "type": "Crimes"
+  },
+  "43": {
+    "crime_count": 96,
+    "name": "88th Precinct",
+    "pct": 88,
+    "per1000": 1.8669,
+    "pop": 51421,
+    "type": "Crimes"
+  },
+  "46": {
+    "crime_count": 58,
+    "name": "102nd Precinct",
+    "pct": 102,
+    "per1000": 0.4022,
+    "pop": 144215,
+    "type": "Crimes"
+  },
+  "49": {
+    "crime_count": 48,
+    "name": "112nd Precinct",
+    "pct": 112,
+    "per1000": 0.4283,
+    "pop": 112070,
+    "type": "Crimes"
+  },
+  "50": {
+    "crime_count": 61,
+    "name": "121st Precinct",
+    "pct": 121,
+    "per1000": 0.5139,
+    "pop": 118708,
+    "type": "Crimes"
+  },
+  "51": {
+    "crime_count": 19,
+    "name": "123rd Precinct",
+    "pct": 123,
+    "per1000": 0.1938,
+    "pop": 98032,
+    "type": "Crimes"
+  },
+  "1": {
+    "crime_count": 131,
+    "name": "34th Precinct",
+    "pct": 34,
+    "per1000": 1.1587,
+    "pop": 113062,
+    "type": "Crimes"
+  },
+  "2": {
+    "crime_count": 68,
+    "name": "41st Precinct",
+    "pct": 41,
+    "per1000": 1.3015,
+    "pop": 52246,
+    "type": "Crimes"
+  },
+  "3": {
+    "crime_count": 159,
+    "name": "43rd Precinct",
+    "pct": 43,
+    "per1000": 0.9237,
+    "pop": 172131,
+    "type": "Crimes"
+  },
+  "5": {
+    "crime_count": 94,
+    "name": "45th Precinct",
+    "pct": 45,
+    "per1000": 0.778,
+    "pop": 120825,
+    "type": "Crimes"
+  },
+  "6": {
+    "crime_count": 143,
+    "name": "47th Precinct",
+    "pct": 47,
+    "per1000": 0.9385,
+    "pop": 152373,
+    "type": "Crimes"
+  },
+  "7": {
+    "crime_count": 75,
+    "name": "28th Precinct",
+    "pct": 28,
+    "per1000": 1.6748,
+    "pop": 44781,
+    "type": "Crimes"
+  },
+  "9": {
+    "crime_count": 74,
+    "name": "50th Precinct",
+    "pct": 50,
+    "per1000": 0.7275,
+    "pop": 101720,
+    "type": "Crimes"
+  },
+  "13": {
+    "crime_count": 113,
+    "name": "90th Precinct",
+    "pct": 90,
+    "per1000": 0.9672,
+    "pop": 116836,
+    "type": "Crimes"
+  },
+  "14": {
+    "crime_count": 54,
+    "name": "94th Precinct",
+    "pct": 94,
+    "per1000": 0.9601,
+    "pop": 56247,
+    "type": "Crimes"
+  },
+  "15": {
+    "crime_count": 142,
+    "name": "104th Precinct",
+    "pct": 104,
+    "per1000": 0.8344,
+    "pop": 170190,
+    "type": "Crimes"
+  },
+  "18": {
+    "crime_count": 109,
+    "name": "108th Precinct",
+    "pct": 108,
+    "per1000": 0.9628,
+    "pop": 113208,
+    "type": "Crimes"
+  },
+  "19": {
+    "crime_count": 175,
+    "name": "109th Precinct",
+    "pct": 109,
+    "per1000": 0.7075,
+    "pop": 247354,
+    "type": "Crimes"
+  },
+  "20": {
+    "crime_count": 121,
+    "name": "110th Precinct",
+    "pct": 110,
+    "per1000": 0.7009,
+    "pop": 172634,
+    "type": "Crimes"
+  },
+  "23": {
+    "crime_count": 139,
+    "name": "114th Precinct",
+    "pct": 114,
+    "per1000": 0.6855,
+    "pop": 202759,
+    "type": "Crimes"
+  },
+  "24": {
+    "crime_count": 105,
+    "name": "115th Precinct",
+    "pct": 115,
+    "per1000": 0.612,
+    "pop": 171575,
+    "type": "Crimes"
+  },
+  "26": {
+    "crime_count": 15,
+    "name": "Department of Correction",
+    "pct": -99,
+    "per1000": 1.0714,
+    "pop": 14000,
+    "type": "Crimes"
+  },
+  "27": {
+    "crime_count": 114,
+    "name": "1st Precinct",
+    "pct": 1,
+    "per1000": 1.7097,
+    "pop": 66679,
+    "type": "Crimes"
+  },
+  "28": {
+    "crime_count": 71,
+    "name": "7th Precinct",
+    "pct": 7,
+    "per1000": 1.2624,
+    "pop": 56240,
+    "type": "Crimes"
+  },
+  "29": {
+    "crime_count": 206,
+    "name": "Manhattan South Precinct",
+    "pct": 14,
+    "per1000": 9.9753,
+    "pop": 20651,
+    "type": "Crimes"
+  },
+  "30": {
+    "crime_count": 58,
+    "name": "30th Precinct",
+    "pct": 30,
+    "per1000": 0.9558,
+    "pop": 60685,
+    "type": "Crimes"
+  },
+  "32": {
+    "crime_count": 104,
+    "name": "32nd Precinct",
+    "pct": 32,
+    "per1000": 1.466,
+    "pop": 70942,
+    "type": "Crimes"
+  },
+  "34": {
+    "crime_count": 76,
+    "name": "33rd Precinct",
+    "pct": 33,
+    "per1000": 0.9876,
+    "pop": 76958,
+    "type": "Crimes"
+  },
+  "36": {
+    "crime_count": 223,
+    "name": "40th Precinct",
+    "pct": 40,
+    "per1000": 2.4372,
+    "pop": 91497,
+    "type": "Crimes"
+  },
+  "37": {
+    "crime_count": 135,
+    "name": "42nd Precinct",
+    "pct": 42,
+    "per1000": 1.6925,
+    "pop": 79762,
+    "type": "Crimes"
+  },
+  "38": {
+    "crime_count": 108,
+    "name": "48th Precinct",
+    "pct": 48,
+    "per1000": 1.297,
+    "pop": 83266,
+    "type": "Crimes"
+  },
+  "39": {
+    "crime_count": 165,
+    "name": "52nd Precinct",
+    "pct": 52,
+    "per1000": 1.1844,
+    "pop": 139307,
+    "type": "Crimes"
+  },
+  "47": {
+    "crime_count": 88,
+    "name": "5th Precinct",
+    "pct": 5,
+    "per1000": 1.6704,
+    "pop": 52683,
+    "type": "Crimes"
+  },
+  "49": {
+    "crime_count": 142,
+    "name": "6th Precinct",
+    "pct": 6,
+    "per1000": 2.282,
+    "pop": 62226,
+    "type": "Crimes"
+  },
+  "52": {
+    "crime_count": 90,
+    "name": "9th Precinct",
+    "pct": 9,
+    "per1000": 1.1773,
+    "pop": 76443,
+    "type": "Crimes"
+  },
+  "53": {
+    "crime_count": 6,
+    "name": "Central Park Precinct",
+    "pct": 22,
+    "per1000": 240,
+    "pop": 25,
+    "type": "Crimes"
+  },
+  "54": {
+    "crime_count": 48,
+    "name": "112nd Precinct",
+    "pct": 112,
+    "per1000": 0.4283,
+    "pop": 112070,
+    "type": "Crimes"
+  },
+  "55": {
+    "crime_count": 93,
+    "name": "107th Precinct",
+    "pct": 107,
+    "per1000": 0.6155,
+    "pop": 151107,
+    "type": "Crimes"
+  },
+  "56": {
+    "crime_count": 94,
+    "name": "10th Precinct",
+    "pct": 10,
+    "per1000": 1.8733,
+    "pop": 50180,
+    "type": "Crimes"
+  },
+  "57": {
+    "crime_count": 162,
+    "name": "13rd Precinct",
+    "pct": 13,
+    "per1000": 1.73,
+    "pop": 93640,
+    "type": "Crimes"
+  },
+  "58": {
+    "crime_count": 91,
+    "name": "17th Precinct",
+    "pct": 17,
+    "per1000": 1.1501,
+    "pop": 79126,
+    "type": "Crimes"
+  },
+  "59": {
+    "crime_count": 233,
+    "name": "Manhattan North Precinct",
+    "pct": 18,
+    "per1000": 4.3095,
+    "pop": 54066,
+    "type": "Crimes"
+  },
+  "60": {
+    "crime_count": 194,
+    "name": "19th Precinct",
+    "pct": 19,
+    "per1000": 0.9315,
+    "pop": 208259,
+    "type": "Crimes"
+  },
+  "61": {
+    "crime_count": 78,
+    "name": "23rd Precinct",
+    "pct": 23,
+    "per1000": 1.0669,
+    "pop": 73106,
+    "type": "Crimes"
+  },
+  "62": {
+    "crime_count": 90,
+    "name": "24th Precinct",
+    "pct": 24,
+    "per1000": 0.8454,
+    "pop": 106460,
+    "type": "Crimes"
+  },
+  "63": {
+    "crime_count": 118,
+    "name": "25th Precinct",
+    "pct": 25,
+    "per1000": 2.4892,
+    "pop": 47405,
+    "type": "Crimes"
+  },
+  "64": {
+    "crime_count": 53,
+    "name": "26th Precinct",
+    "pct": 26,
+    "per1000": 1.0705,
+    "pop": 49508,
+    "type": "Crimes"
+  },
+  "65": {
+    "crime_count": 80,
+    "name": "20th Precinct",
+    "pct": 20,
+    "per1000": 0.7795,
+    "pop": 102624,
+    "type": "Crimes"
+  },
+  "66": {
+    "crime_count": 205,
+    "name": "44th Precinct",
+    "pct": 44,
+    "per1000": 1.3999,
+    "pop": 146441,
+    "type": "Crimes"
+  },
+  "67": {
+    "crime_count": 143,
+    "name": "46th Precinct",
+    "pct": 46,
+    "per1000": 1.1154,
+    "pop": 128200,
+    "type": "Crimes"
+  },
+  "68": {
+    "crime_count": 79,
+    "name": "49th Precinct",
+    "pct": 49,
+    "per1000": 0.6887,
+    "pop": 114712,
+    "type": "Crimes"
+  },
+  "5": {
+    "crime_count": 94,
+    "name": "45th Precinct",
+    "pct": 45,
+    "per1000": 0.778,
+    "pop": 120825,
+    "type": "Crimes"
+  },
+  "6": {
+    "crime_count": 143,
+    "name": "47th Precinct",
+    "pct": 47,
+    "per1000": 0.9385,
+    "pop": 152373,
+    "type": "Crimes"
+  },
+  "11": {
+    "crime_count": 116,
+    "name": "105th Precinct",
+    "pct": 105,
+    "per1000": 0.6156,
+    "pop": 188421,
+    "type": "Crimes"
+  },
+  "14": {
+    "crime_count": 175,
+    "name": "109th Precinct",
+    "pct": 109,
+    "per1000": 0.7075,
+    "pop": 247354,
+    "type": "Crimes"
+  },
+  "16": {
+    "crime_count": 66,
+    "name": "111st Precinct",
+    "pct": 111,
+    "per1000": 0.5669,
+    "pop": 116431,
+    "type": "Crimes"
+  },
+  "27": {
+    "crime_count": 119,
+    "name": "103rd Precinct",
+    "pct": 103,
+    "per1000": 1.1247,
+    "pop": 105803,
+    "type": "Crimes"
+  },
+  "30": {
+    "crime_count": 93,
+    "name": "107th Precinct",
+    "pct": 107,
+    "per1000": 0.6155,
+    "pop": 151107,
+    "type": "Crimes"
+  },
+  "1": {
+    "crime_count": 96,
+    "name": "60th Precinct",
+    "pct": 60,
+    "per1000": 0.9195,
+    "pop": 104400,
+    "type": "Crimes"
+  },
+  "2": {
+    "crime_count": 78,
+    "name": "61st Precinct",
+    "pct": 61,
+    "per1000": 0.4889,
+    "pop": 159528,
+    "type": "Crimes"
+  },
+  "3": {
+    "crime_count": 64,
+    "name": "63rd Precinct",
+    "pct": 63,
+    "per1000": 0.5891,
+    "pop": 108646,
+    "type": "Crimes"
+  },
+  "4": {
+    "crime_count": 56,
+    "name": "69th Precinct",
+    "pct": 69,
+    "per1000": 0.6629,
+    "pop": 84480,
+    "type": "Crimes"
+  },
+  "5": {
+    "crime_count": 130,
+    "name": "67th Precinct",
+    "pct": 67,
+    "per1000": 0.8373,
+    "pop": 155252,
+    "type": "Crimes"
+  },
+  "6": {
+    "crime_count": 99,
+    "name": "72nd Precinct",
+    "pct": 72,
+    "per1000": 0.7843,
+    "pop": 126230,
+    "type": "Crimes"
+  },
+  "7": {
+    "crime_count": 288,
+    "name": "75th Precinct",
+    "pct": 75,
+    "per1000": 1.571,
+    "pop": 183328,
+    "type": "Crimes"
+  },
+  "8": {
+    "crime_count": 161,
+    "name": "79th Precinct",
+    "pct": 79,
+    "per1000": 1.7837,
+    "pop": 90263,
+    "type": "Crimes"
+  },
+  "9": {
+    "crime_count": 113,
+    "name": "90th Precinct",
+    "pct": 90,
+    "per1000": 0.9672,
+    "pop": 116836,
+    "type": "Crimes"
+  },
+  "10": {
+    "crime_count": 54,
+    "name": "94th Precinct",
+    "pct": 94,
+    "per1000": 0.9601,
+    "pop": 56247,
+    "type": "Crimes"
+  },
+  "11": {
+    "crime_count": 39,
+    "name": "100th Precinct",
+    "pct": 100,
+    "per1000": 0.814,
+    "pop": 47913,
+    "type": "Crimes"
+  },
+  "13": {
+    "crime_count": 142,
+    "name": "104th Precinct",
+    "pct": 104,
+    "per1000": 0.8344,
+    "pop": 170190,
+    "type": "Crimes"
+  },
+  "15": {
+    "crime_count": 110,
+    "name": "106th Precinct",
+    "pct": 106,
+    "per1000": 0.8984,
+    "pop": 122441,
+    "type": "Crimes"
+  },
+  "20": {
+    "crime_count": 129,
+    "name": "113rd Precinct",
+    "pct": 113,
+    "per1000": 1.0738,
+    "pop": 120132,
+    "type": "Crimes"
+  },
+  "23": {
+    "crime_count": 65,
+    "name": "120th Precinct",
+    "pct": 120,
+    "per1000": 0.5752,
+    "pop": 113008,
+    "type": "Crimes"
+  },
+  "24": {
+    "crime_count": 61,
+    "name": "121st Precinct",
+    "pct": 121,
+    "per1000": 0.5139,
+    "pop": 118708,
+    "type": "Crimes"
+  },
+  "25": {
+    "crime_count": 47,
+    "name": "122nd Precinct",
+    "pct": 122,
+    "per1000": 0.3382,
+    "pop": 138982,
+    "type": "Crimes"
+  },
+  "26": {
+    "crime_count": 19,
+    "name": "123rd Precinct",
+    "pct": 123,
+    "per1000": 0.1938,
+    "pop": 98032,
+    "type": "Crimes"
+  },
+  "27": {
+    "crime_count": 114,
+    "name": "1st Precinct",
+    "pct": 1,
+    "per1000": 1.7097,
+    "pop": 66679,
+    "type": "Crimes"
+  },
+  "28": {
+    "crime_count": 71,
+    "name": "7th Precinct",
+    "pct": 7,
+    "per1000": 1.2624,
+    "pop": 56240,
+    "type": "Crimes"
+  },
+  "30": {
+    "crime_count": 122,
+    "name": "73rd Precinct",
+    "pct": 73,
+    "per1000": 1.4109,
+    "pop": 86468,
+    "type": "Crimes"
+  },
+  "31": {
+    "crime_count": 124,
+    "name": "81st Precinct",
+    "pct": 81,
+    "per1000": 1.977,
+    "pop": 62722,
+    "type": "Crimes"
+  },
+  "32": {
+    "crime_count": 86,
+    "name": "71st Precinct",
+    "pct": 71,
+    "per1000": 0.8737,
+    "pop": 98429,
+    "type": "Crimes"
+  },
+  "33": {
+    "crime_count": 98,
+    "name": "62nd Precinct",
+    "pct": 62,
+    "per1000": 0.5385,
+    "pop": 181981,
+    "type": "Crimes"
+  },
+  "34": {
+    "crime_count": 74,
+    "name": "66th Precinct",
+    "pct": 66,
+    "per1000": 0.3867,
+    "pop": 191382,
+    "type": "Crimes"
+  },
+  "35": {
+    "crime_count": 67,
+    "name": "68th Precinct",
+    "pct": 68,
+    "per1000": 0.5382,
+    "pop": 124491,
+    "type": "Crimes"
+  },
+  "36": {
+    "crime_count": 99,
+    "name": "70th Precinct",
+    "pct": 70,
+    "per1000": 0.6162,
+    "pop": 160664,
+    "type": "Crimes"
+  },
+  "37": {
+    "crime_count": 21,
+    "name": "76th Precinct",
+    "pct": 76,
+    "per1000": 0.4812,
+    "pop": 43643,
+    "type": "Crimes"
+  },
+  "38": {
+    "crime_count": 83,
+    "name": "77th Precinct",
+    "pct": 77,
+    "per1000": 0.9147,
+    "pop": 90744,
+    "type": "Crimes"
+  },
+  "39": {
+    "crime_count": 66,
+    "name": "78th Precinct",
+    "pct": 78,
+    "per1000": 0.9893,
+    "pop": 66715,
+    "type": "Crimes"
+  },
+  "40": {
+    "crime_count": 111,
+    "name": "83rd Precinct",
+    "pct": 83,
+    "per1000": 0.9855,
+    "pop": 112634,
+    "type": "Crimes"
+  },
+  "41": {
+    "crime_count": 102,
+    "name": "84th Precinct",
+    "pct": 84,
+    "per1000": 2.1164,
+    "pop": 48196,
+    "type": "Crimes"
+  },
+  "42": {
+    "crime_count": 88,
+    "name": "5th Precinct",
+    "pct": 5,
+    "per1000": 1.6704,
+    "pop": 52683,
+    "type": "Crimes"
+  },
+  "43": {
+    "crime_count": 96,
+    "name": "88th Precinct",
+    "pct": 88,
+    "per1000": 1.8669,
+    "pop": 51421,
+    "type": "Crimes"
+  },
+  "46": {
+    "crime_count": 58,
+    "name": "102nd Precinct",
+    "pct": 102,
+    "per1000": 0.4022,
+    "pop": 144215,
+    "type": "Crimes"
+  },
+  "49": {
+    "crime_count": 48,
+    "name": "112nd Precinct",
+    "pct": 112,
+    "per1000": 0.4283,
+    "pop": 112070,
+    "type": "Crimes"
+  },
+  "6": {
+    "crime_count": 39,
+    "name": "100th Precinct",
+    "pct": 100,
+    "per1000": 0.814,
+    "pop": 47913,
+    "type": "Crimes"
+  },
+  "7": {
+    "crime_count": 85,
+    "name": "101st Precinct",
+    "pct": 101,
+    "per1000": 1.2674,
+    "pop": 67065,
+    "type": "Crimes"
+  },
+  "9": {
+    "crime_count": 116,
+    "name": "105th Precinct",
+    "pct": 105,
+    "per1000": 0.6156,
+    "pop": 188421,
+    "type": "Crimes"
+  },
+  "10": {
+    "crime_count": 110,
+    "name": "106th Precinct",
+    "pct": 106,
+    "per1000": 0.8984,
+    "pop": 122441,
+    "type": "Crimes"
+  },
+  "15": {
+    "crime_count": 129,
+    "name": "113rd Precinct",
+    "pct": 113,
+    "per1000": 1.0738,
+    "pop": 120132,
+    "type": "Crimes"
+  },
+  "20": {
+    "crime_count": 119,
+    "name": "103rd Precinct",
+    "pct": 103,
+    "per1000": 1.1247,
+    "pop": 105803,
+    "type": "Crimes"
+  },
+  "21": {
+    "crime_count": 58,
+    "name": "102nd Precinct",
+    "pct": 102,
+    "per1000": 0.4022,
+    "pop": 144215,
+    "type": "Crimes"
+  },
+  "23": {
+    "crime_count": 93,
+    "name": "107th Precinct",
+    "pct": 107,
+    "per1000": 0.6155,
+    "pop": 151107,
+    "type": "Crimes"
+  },
+  "2": {
+    "crime_count": 61,
+    "name": "121st Precinct",
+    "pct": 121,
+    "per1000": 0.5139,
+    "pop": 118708,
+    "type": "Crimes"
+  },
+  "4": {
+    "crime_count": 19,
+    "name": "123rd Precinct",
+    "pct": 123,
+    "per1000": 0.1938,
+    "pop": 98032,
+    "type": "Crimes"
+  }
+}

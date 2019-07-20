@@ -16,6 +16,7 @@ housing = open('../data/housing_new.csv', 'a', newline='', encoding='utf-8')
 writer = csv.writer(housing, dialect='excel')
 title = ['id', 'house_ln', 'house_la', 'subway', 'bus_stop']
 writer.writerow(title)
+csv.field_size_limit(int(5e8))
 
 
 def load_subway(filename):
@@ -176,11 +177,176 @@ def write_house_data(_data):
     for line in _data:
         writer.writerow(line)
 
+def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
+    """
+    :param filename: Crime rate data file (in json)
+    :return: A dictionary. Keys are precinct name, values are crime per 1000 population
+    """
+    import json
+
+    def my_obj_pairs_hook(lst): # Deal with duplicate keys in json
+        result = {}
+        count = {}
+        for key, val in lst:
+            if key in count:
+                count[key] = 1 + count[key]
+            else:
+                count[key] = 1
+            if key in result:
+                if count[key] > 2:
+                    result[key].append(val)
+                else:
+                    result[key] = [result[key], val]
+            else:
+                result[key] = val
+        return result
+
+    raw = json.load(open(filename), object_pairs_hook=my_obj_pairs_hook)
+
+    per1000_list = {}
+
+    for sub_list in raw.values():
+        if type(sub_list) == list:
+            for item in sub_list:
+                per1000_list[item['name']] = item['per1000']
+        elif type(sub_list) == dict:
+            per1000_list[sub_list['name']] = sub_list['per1000']
+
+    return per1000_list
+
+def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
+    """
+    :param filename:
+    :return: A dictionary. Keys are precinct name (only numbers), values are boudary lists.
+             Some precincts have multiple regions.
+             return format:
+             {
+                "1": [[(-70.1, 40.2), (-70.0, 40.1)], [(-70.1, 40.2), (-70.0, 40.1)], ...]
+                # [[Cords of region 1], [Cords,of regions2], ...]
+                ......
+             }
+    """
+    f = csv.reader(open(filename,  'r', encoding='utf-8'))
+
+    boundary_list = {}
+
+    for line in f:
+        if line[0] == 'the_geom':
+            continue
+        cords = line[0].lstrip('MULTIPOLYGON (((').rstrip(')))').split(')), ((')
+        boundary_list[f'{line[3]}'] = []
+
+        for i in range(len(cords)):
+            cords[i] = cords[i].split(', ')
+            boundary_list[f'{line[3]}'].append([])
+
+            for j in range(len(cords[i])):
+                lo = float(cords[i][j].split(' ')[0])
+                la = float(cords[i][j].split(' ')[1])
+                boundary_list[f'{line[3]}'][i].append((lo, la))
+
+    return boundary_list
+
+def is_pt_in_poly(aLon, aLat, pointList) -> bool:
+    """
+    :param aLon: double 经度
+    :param aLat: double 纬度
+    :param pointList: list [(lon, lat)...] 多边形点的顺序需根据顺时针或逆时针，不能乱
+    """
+
+    iSum = 0
+    iCount = len(pointList)
+
+    if iCount < 3:
+        return False
+
+    for i in range(iCount):
+
+        pLon1 = pointList[i][0]
+        pLat1 = pointList[i][1]
+
+        if i == iCount - 1:
+
+            pLon2 = pointList[0][0]
+            pLat2 = pointList[0][1]
+        else:
+            pLon2 = pointList[i + 1][0]
+            pLat2 = pointList[i + 1][1]
+
+        if ((aLat >= pLat1) and (aLat < pLat2)) or ((aLat >= pLat2) and (aLat < pLat1)):
+
+            if abs(pLat1 - pLat2) > 0:
+
+                pLon = pLon1 - ((pLon1 - pLon2) * (pLat1 - aLat)) / (pLat1 - pLat2)
+
+                if pLon < aLon:
+                    iSum += 1
+
+    if iSum % 2 != 0:
+        return True
+    else:
+        return False
+
+def cal_crime_rate_by_housing(filename='../data/housing_all.csv'):
+    """
+    :param filename: housing_all.csv
+    :return: A dict. Keys are ids of houses. Values
+    """
+    f = csv.reader(open(filename, 'r', encoding='utf-8'))
+    precinct_boundary = load_police_precinct_boundary(filename='../data/police.csv')
+    crime_rate_by_precinct = load_crime_rate_by_precinct(filename='../data/crime.json')
+    crime_rate_by_housing = {}
+
+    count = 0   # For progress output
+
+    for listing in f:
+        if listing[0] == 'id':
+            continue
+        house_id = listing[0]
+        house_ln = float(listing[1])
+        house_la = float(listing[2])
+
+        precinct_name = 'None'  # Default precinct_name for houses not in any precincts
+        for precinct in precinct_boundary.keys():
+            for region in precinct_boundary[precinct]:
+                if is_pt_in_poly(house_ln, house_la, region):
+                    precinct_name = precinct    # Deal with different precinct name in two sets
+                    if precinct.endswith('1'):
+                        precinct_name += 'st'
+                    elif precinct.endswith('2'):
+                        precinct_name += 'nd'
+                    elif precinct.endswith('3'):
+                        precinct_name += 'rd'
+                    else:
+                        precinct_name += 'th'
+                    break
+
+        crime_rate_by_housing[house_id] = 'NaN' # Default crime rate for precinct_name == 'None'
+        if not precinct_name == 'None':
+            if precinct_name == '14th':
+                crime_rate_by_housing[house_id] = crime_rate_by_precinct['Manhattan South Precinct']
+            elif precinct_name == '18th':
+                crime_rate_by_housing[house_id] = crime_rate_by_precinct['Manhattan North Precinct']
+            elif precinct_name == '22nd':
+                crime_rate_by_housing[house_id] = crime_rate_by_precinct['Central Park Precinct']
+            else:
+                for precinct in crime_rate_by_precinct.keys():
+                    if precinct.startswith(precinct_name):
+                        crime_rate_by_housing[house_id] = crime_rate_by_precinct[precinct]
+                        break
+
+        count += 1
+        if count % 500 == 0:
+            print(count)    # Print progress
+
+    return crime_rate_by_housing
+
 
 if __name__ == "__main__":
     # houses = load_list('listings.csv')
-    houses = load_housing('../data/housing.csv')
-    houses = counting_sub(houses)
+    # houses = load_housing('../data/housing.csv')
+    # houses = counting_sub(houses)
     # print(houses)
     # write_house_data(houses)
     # load_subway('subway.csv')
+    cal_crime_rate_by_housing(filename='../data/housing_all.csv')
