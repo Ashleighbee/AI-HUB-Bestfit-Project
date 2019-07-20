@@ -6,6 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
+from collections import OrderedDict
 import re
 
 # browser = webdriver.Firefox()
@@ -287,7 +288,7 @@ def is_pt_in_poly(aLon, aLat, pointList) -> bool:
     else:
         return False
 
-def cal_crime_rate_by_housing(filename='../data/housing_all.csv'):
+def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     """
     :param filename: housing_all.csv
     :return: A dict. Keys are ids of houses. Values
@@ -295,7 +296,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv'):
     f = csv.reader(open(filename, 'r', encoding='utf-8'))
     precinct_boundary = load_police_precinct_boundary(filename='../data/police.csv')
     crime_rate_by_precinct = load_crime_rate_by_precinct(filename='../data/crime.json')
-    crime_rate_by_housing = {}
+    crime_rate_by_housing = OrderedDict()
 
     count = 0   # For progress output
 
