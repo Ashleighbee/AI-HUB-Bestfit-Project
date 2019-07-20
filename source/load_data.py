@@ -16,6 +16,7 @@ housing = open('../data/housing_new.csv', 'a', newline='', encoding='utf-8')
 writer = csv.writer(housing, dialect='excel')
 title = ['id', 'house_ln', 'house_la', 'subway', 'bus_stop']
 writer.writerow(title)
+csv.field_size_limit(int(5e8))
 
 
 def load_subway(filename):
@@ -244,6 +245,47 @@ def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
                 boundary_list[f'{line[3]}'][i].append((lo, la))
 
     return boundary_list
+
+def is_pt_in_poly(aLon, aLat, pointList) -> bool:
+    '''
+    :param aLon: double 经度
+    :param aLat: double 纬度
+    :param pointList: list [(lon, lat)...] 多边形点的顺序需根据顺时针或逆时针，不能乱
+    '''
+
+    iSum = 0
+    iCount = len(pointList)
+
+    if iCount < 3:
+        return False
+
+    for i in range(iCount):
+
+        pLon1 = pointList[i][0]
+        pLat1 = pointList[i][1]
+
+        if i == iCount - 1:
+
+            pLon2 = pointList[0][0]
+            pLat2 = pointList[0][1]
+        else:
+            pLon2 = pointList[i + 1][0]
+            pLat2 = pointList[i + 1][1]
+
+        if ((aLat >= pLat1) and (aLat < pLat2)) or ((aLat >= pLat2) and (aLat < pLat1)):
+
+            if abs(pLat1 - pLat2) > 0:
+
+                pLon = pLon1 - ((pLon1 - pLon2) * (pLat1 - aLat)) / (pLat1 - pLat2);
+
+                if pLon < aLon:
+                    iSum += 1
+
+    if iSum % 2 != 0:
+        return True
+    else:
+        return False
+
 
 
 if __name__ == "__main__":
