@@ -176,7 +176,11 @@ def write_house_data(_data):
     for line in _data:
         writer.writerow(line)
 
-def load_crime_rate_by_precinct(filename):
+def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
+    """
+    :param filename: Crime rate data file (in json)
+    :return: A dictionary. Keys are precinct name, values are crime per 1000 population
+    """
     import json
 
     def my_obj_pairs_hook(lst): # Deal with duplicate keys in json
@@ -210,6 +214,16 @@ def load_crime_rate_by_precinct(filename):
     return per1000_list
 
 def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
+    """
+    :param filename:
+    :return: A dictionary. Keys are precinct name (only numbers), values are boudary lists.
+             Some precincts have multiple regions.
+             return format:
+             {
+                "1": [[(-70.1, 40.2), (-70.0, 40.1)], [(-70.1, 40.2), (-70.0, 40.1)]]
+                ......
+             }
+    """
     f = csv.reader(open(filename,  'r', encoding='utf-8'))
 
     boundary_list = {}
