@@ -207,7 +207,30 @@ def load_crime_rate_by_precinct(filename):
         elif type(sub_list) == dict:
             per1000_list[sub_list['name']] = sub_list['per1000']
 
-    print('')
+    return per1000_list
+
+def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
+    f = csv.reader(open(filename,  'r', encoding='utf-8'))
+
+    boundary_list = {}
+
+    for line in f:
+        if line[0] == 'the_geom':
+            continue
+        cords = line[0].lstrip('MULTIPOLYGON (((').rstrip(')))').split(')), ((')
+        boundary_list[f'{line[3]}'] = []
+
+        for i in range(len(cords)):
+            cords[i] = cords[i].split(', ')
+            boundary_list[f'{line[3]}'].append([])
+
+            for j in range(len(cords[i])):
+                lo = cords[i][j].split(' ')[0]
+                la = cords[i][j].split(' ')[1]
+                boundary_list[f'{line[3]}'][i].append((lo, la))
+
+    return boundary_list
+
 
 if __name__ == "__main__":
     # houses = load_list('listings.csv')
@@ -216,4 +239,4 @@ if __name__ == "__main__":
     # print(houses)
     # write_house_data(houses)
     # load_subway('subway.csv')
-    load_crime_rate_by_precinct('../data/crime.json')
+    load_police_precinct_boundary()
