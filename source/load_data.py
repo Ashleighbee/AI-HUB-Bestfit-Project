@@ -9,6 +9,7 @@ from selenium.common.exceptions import TimeoutException
 from collections import OrderedDict
 import re
 import pandas as pd
+import numpy as np
 
 # browser = webdriver.Firefox()
 # url = 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot'
@@ -292,7 +293,7 @@ def is_pt_in_poly(aLon, aLat, pointList) -> bool:
 def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     """
     :param filename: housing_all.csv
-    :return: A dict. Keys are ids of houses. Values
+    :return: A dict. Keys are ids of houses. Values are crime rates.
     """
     f = csv.reader(open(filename, 'r', encoding='utf-8'))
     precinct_boundary = load_police_precinct_boundary(filename='../data/police.csv')
@@ -323,7 +324,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
                         precinct_name += 'th'
                     break
 
-        crime_rate_by_housing[house_id] = 'NaN' # Default crime rate for precinct_name == 'None'
+        crime_rate_by_housing[house_id] = np.nan # Default crime rate for precinct_name == 'None'
         if not precinct_name == 'None':
             if precinct_name == '14th':
                 crime_rate_by_housing[house_id] = crime_rate_by_precinct['Manhattan South Precinct']
@@ -343,7 +344,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
 
     return crime_rate_by_housing
 
-def add_to_main(filename):
+def write_crime_rate(filename):
     crime_rate_dic = cal_crime_rate_by_housing()
     retVal = []
     for key in crime_rate_dic.keys():
@@ -365,4 +366,4 @@ if __name__ == "__main__":
     # print(houses)
     # write_house_data(houses)
     # load_subway('subway.csv')
-    add_to_main(filename='../data/housing_all.csv')
+    write_crime_rate(filename='../data/housing_all.csv')
