@@ -287,6 +287,59 @@ def is_pt_in_poly(aLon, aLat, pointList) -> bool:
     else:
         return False
 
+def cal_crime_rate_by_housing(filename='../data/housing_all.csv'):
+    """
+    :param filename: housing_all.csv
+    :return: A dict. Keys are ids of houses. Values
+    """
+    f = csv.reader(open(filename, 'r', encoding='utf-8'))
+    precinct_boundary = load_police_precinct_boundary(filename='../data/police.csv')
+    crime_rate_by_precinct = load_crime_rate_by_precinct(filename='../data/crime.json')
+    crime_rate_by_housing = {}
+
+    count = 0   # For progress output
+
+    for listing in f:
+        if listing[0] == 'id':
+            continue
+        house_id = listing[0]
+        house_ln = float(listing[1])
+        house_la = float(listing[2])
+
+        precinct_name = 'None'  # Default precinct_name for houses not in any precincts
+        for precinct in precinct_boundary.keys():
+            for region in precinct_boundary[precinct]:
+                if is_pt_in_poly(house_ln, house_la, region):
+                    precinct_name = precinct    # Deal with different precinct name in two sets
+                    if precinct.endswith('1'):
+                        precinct_name += 'st'
+                    elif precinct.endswith('2'):
+                        precinct_name += 'nd'
+                    elif precinct.endswith('3'):
+                        precinct_name += 'rd'
+                    else:
+                        precinct_name += 'th'
+                    break
+
+        crime_rate_by_housing[house_id] = 'NaN' # Default crime rate for precinct_name == 'None'
+        if not precinct_name == 'None':
+            if precinct_name == '14th':
+                crime_rate_by_housing[house_id] = crime_rate_by_precinct['Manhattan South Precinct']
+            elif precinct_name == '18th':
+                crime_rate_by_housing[house_id] = crime_rate_by_precinct['Manhattan North Precinct']
+            elif precinct_name == '22nd':
+                crime_rate_by_housing[house_id] = crime_rate_by_precinct['Central Park Precinct']
+            else:
+                for precinct in crime_rate_by_precinct.keys():
+                    if precinct.startswith(precinct_name):
+                        crime_rate_by_housing[house_id] = crime_rate_by_precinct[precinct]
+                        break
+
+        count += 1
+        if count % 500 == 0:
+            print(count)    # Print progress
+
+    return crime_rate_by_housing
 
 
 if __name__ == "__main__":
@@ -296,4 +349,4 @@ if __name__ == "__main__":
     # print(houses)
     # write_house_data(houses)
     # load_subway('subway.csv')
-    load_police_precinct_boundary()
+    cal_crime_rate_by_housing(filename='../data/housing_all.csv')
