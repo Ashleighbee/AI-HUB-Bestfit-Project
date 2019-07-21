@@ -303,11 +303,11 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     count = 0   # For progress output
 
     for listing in f:
-        if listing[0] == 'id':
+        if listing[1] == 'id':
             continue
-        house_id = listing[0]
-        house_ln = float(listing[1])
-        house_la = float(listing[2])
+        house_id = listing[1]
+        house_ln = float(listing[2])
+        house_la = float(listing[3])
 
         precinct_name = 'None'  # Default precinct_name for houses not in any precincts
         for precinct in precinct_boundary.keys():
