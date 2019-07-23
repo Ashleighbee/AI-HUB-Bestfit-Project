@@ -358,7 +358,6 @@ def write_crime_rate(filename):
     df2 .to_csv("../data/housing_all.csv")
 
 
-
 if __name__ == "__main__":
     # houses = load_list('listings.csv')
     # houses = load_housing('../data/housing.csv')
