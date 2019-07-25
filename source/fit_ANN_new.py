@@ -1,4 +1,3 @@
-
 import sklearn
 from keras import models
 from keras import layers
@@ -62,16 +61,15 @@ def training(n1, n2, n3):
     y_predict = model.predict(X_test)
     r2 = r2_score(y_test, y_predict)
 
-    print(n1, n2, n3, r2)
+    print('***********Nodes: ', n1, n2, n3, '\t\tScore: ', r2, '**************')
     return r2
-
 
 def trying():
     m = 0
     nn = []
-    for n1 in range(40, 130, 5):
-        for n2 in range(30, 120, 5):
-            for n3 in range(20, 80, 5):
+    for n1 in range(50, 150, 5):
+        for n2 in range(50, 120, 5):
+            for n3 in range(80, 100, 5):
                 mm = training(n1, n2, n3)
                 if mm > m:
                     m = mm

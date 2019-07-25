@@ -137,37 +137,37 @@ def cal_distance(lng1, lat1, lng2, lat2):
     distance = round(distance/1000, 3)
     return distance
 
-def cal_dis_on_map(ln1, la1, ln2, la2):
-    try:
-        input1 = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(2) > '
-                              'span:nth-child(2) > input:nth-child(1)')))
-        input2 = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(3) > '
-                              'span:nth-child(2) > input:nth-child(1)')))
-        btn = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(4) > '
-                              'input:nth-child(2)')))
-        input1.clear()
-        input2.clear()
-        input1.send_keys(la1 + ', ' + ln1)
-        input2.send_keys(la2 + ', ' + ln2)
-        btn.click()
-        time.sleep(3)
-        dis = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#routing_summary'))).text
-        dis = re.split('[：:m]', dis)[1]
-
-        if 'k' in dis:
-            dis = dis.strip('km')
-            dis = float(dis) * 1000
-        else:
-            dis = float(dis)
-        return dis
-    except TimeoutException:
-        # warning = wait.until(EC.presence_of_element_located(
-        #     (By.CSS_SELECTOR, '.search_results_error'))).text
-        return -1
+# def cal_dis_on_map(ln1, la1, ln2, la2):
+#     try:
+#         input1 = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(2) > '
+#                               'span:nth-child(2) > input:nth-child(1)')))
+#         input2 = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(3) > '
+#                               'span:nth-child(2) > input:nth-child(1)')))
+#         btn = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(4) > '
+#                               'input:nth-child(2)')))
+#         input1.clear()
+#         input2.clear()
+#         input1.send_keys(la1 + ', ' + ln1)
+#         input2.send_keys(la2 + ', ' + ln2)
+#         btn.click()
+#         time.sleep(3)
+#         dis = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#routing_summary'))).text
+#         dis = re.split('[：:m]', dis)[1]
+#
+#         if 'k' in dis:
+#             dis = dis.strip('km')
+#             dis = float(dis) * 1000
+#         else:
+#             dis = float(dis)
+#         return dis
+#     except TimeoutException:
+#         # warning = wait.until(EC.presence_of_element_located(
+#         #     (By.CSS_SELECTOR, '.search_results_error'))).text
+#         return -1
 
 def counting_sub(_houses):
     fa = load_subway('../data/subway.csv')
