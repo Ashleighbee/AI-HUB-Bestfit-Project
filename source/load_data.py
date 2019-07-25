@@ -195,6 +195,37 @@ def counting_sub(_houses):
         n += 1
     return new_house
 
+
+def write_subway_distance(housefile='../data/housing_all.csv',
+                          subwayfile='../data/subway.csv'):
+    subway_list = load_subway(subwayfile)
+    subway_cord_list = []
+    # grab coordinates
+    for i in subway_list:
+        subway_cord_list.append(tuple(i[0]))
+
+    house_list = list(csv.reader(open(housefile, 'r')))
+    house_writer = csv.writer(open(housefile, 'w', newline=''))
+    house_list[0].extend(['sub_dist_1', 'sub_dist_2', 'sub_dist_3'])
+    house_writer.writerow(house_list[0])
+
+    for line in house_list:
+        if line[0] == 'id':
+            continue
+
+        ln = line[1]
+        la = line[2]
+
+        dist_list = []
+
+        for sub_cord in subway_cord_list:
+            dist_list.append(cal_distance(ln, la, sub_cord[0], sub_cord[1]))
+
+        dist_list.sort()
+        line.extend(dist_list[:3])
+        house_writer.writerow(line)
+
+
 def counting_(_houses, fa):
     n = 1
     for house in _houses:
@@ -390,11 +421,4 @@ def write_crime_rate(filename):
 
 
 if __name__ == "__main__":
-    houses, title = load_housing('../data/housing_all.csv')
-    # scenery_processing(houses, title)
-    # for i in range(1, 10):
-    #     cal_dis_on_map(houses[i][1], houses[i][2], houses[i+1][1], houses[i+1][2])
-    # writer.writerow(title)
-    # park = load_scenery('../data/scenery.csv')
-    # counting_(houses, park)
-    # write_crime_rate(filename='../data/housing_all.csv')
+    write_subway_distance()
