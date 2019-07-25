@@ -13,9 +13,7 @@ writer = csv.writer(housing_new, dialect='excel')
 #          'daily_price', 'weekly_price', 'monthly_price']
 # writer.writerow(title)
 
-
-if __name__ == '__main__':
-    matched = 0
+def price_clean():
     for i in range(0, len(g)):
         price = g[i][26]
         if 'daily_price' in price:
@@ -28,3 +26,7 @@ if __name__ == '__main__':
             writer.writerow(g[i])
         if i % 500 == 0:
             print(i, 'houses done!')
+
+
+if __name__ == '__main__':
+    price_clean()

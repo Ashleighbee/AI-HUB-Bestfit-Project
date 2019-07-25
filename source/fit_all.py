@@ -13,27 +13,27 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv('../data/housing_clean.csv')
 df_b = pd.read_csv('../data/housing_price_balanced.csv')
-features = [df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom, df.bedroom,
+features = [df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom, df.bedroom,
             df.beds, df.guests, df.Entire_home, df.response_time_num, df.host_response_rate,
             df.superhost, df.crime_rate]
-features_b = [df_b.subway, df_b.bus_stop, df_b.park, df_b.scenery, df_b.accommodates, df_b.bathroom, df_b.bedroom,
-              df_b.beds, df_b.guests, df_b.Entire_home, df_b.response_time_num, df_b.host_response_rate,
-              df_b.superhost, df_b.crime_rate]
+# features_b = [df_b.subway, df_b.bus_stop, df_b.park, df_b.scenery, df_b.accommodates, df_b.bathroom, df_b.bedroom,
+#               df_b.beds, df_b.guests, df_b.Entire_home, df_b.response_time_num, df_b.host_response_rate,
+#               df_b.superhost, df_b.crime_rate]
 
 X = pd.concat(features, axis=1).astype(dtype='float64', copy=False)
 y = df.daily_price
 
-X_b = pd.concat(features_b, axis=1).astype(dtype='float64', copy=False)
-y_b = df_b.daily_price
+# X_b = pd.concat(features_b, axis=1).astype(dtype='float64', copy=False)
+# y_b = df_b.daily_price
 
 # X_sc = scale(X)
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.3)
-X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X_b.values, y_b.values, test_size=0.2)
+# X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X_b.values, y_b.values, test_size=0.2)
 
 X_train = scale(X_train)
 X_test = scale(X_test)
-X_train_b = scale(X_train_b)
-X_test_b = scale(X_test_b)
+# X_train_b = scale(X_train_b)
+# X_test_b = scale(X_test_b)
 
 
 reg_line = LinearRegression()
