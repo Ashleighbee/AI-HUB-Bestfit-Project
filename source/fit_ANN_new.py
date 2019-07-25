@@ -39,19 +39,19 @@ dataset = pd.concat(features, axis=1)
 dataset = dataset.dropna().astype(dtype='float64', copy=False)
 
 X = pd.concat([df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom,
-                df.bedroom, df.beds, df.guests,  df.Entire_home, df.response_time_num, df.host_response_rate,
-                df.superhost, df.crime_rate,
-                df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
-                df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
-                df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
-                df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters, df.One_world_trade_cente,
-                # df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
-                # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
-                # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
-                # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
-                # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
-                # df.SOHO, df.High_Line_Park,
-                df.sub_dist_1, df.sub_dist_2, df.sub_dist_3], axis=1)
+               df.bedroom, df.beds, df.guests,  df.Entire_home, df.response_time_num, df.host_response_rate,
+               df.superhost, df.crime_rate,
+               df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
+               df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
+               df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
+               df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters, df.One_world_trade_cente,
+               # df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
+               # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
+               # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
+               # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
+               # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
+               # df.SOHO, df.High_Line_Park,
+               df.sub_dist_1, df.sub_dist_2, df.sub_dist_3], axis=1)
 y = dataset.daily_price
 
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.2)
