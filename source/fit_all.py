@@ -14,16 +14,21 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('../data/housing_clean.csv')
 df_b = pd.read_csv('../data/housing_price_balanced.csv')
 features = [df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom, df.bedroom, df.beds, df.guests,
-            df.num_of_review, df.review_score, df.Entire_home, df.host_response_rate, df.superhost, df.crime_rate]
+            df.num_of_review, df.review_score, df.Entire_home, df.response_time_num, df.host_response_rate,
+            df.superhost, df.crime_rate]
+features_b = [df_b.subway, df_b.bus_stop, df_b.park, df_b.scenery, df_b.accommodates, df_b.bathroom, df_b.bedroom,
+              df_b.beds, df_b.guests, df_b.num_of_review, df_b.review_score, df_b.Entire_home, df_b.response_time_num,
+              df_b.host_response_rate, df_b.superhost, df_b.crime_rate]
+
 X = pd.concat(features, axis=1).dropna().astype(dtype='float64', copy=False)
 y = df.daily_price.dropna()
 
-X_b = pd.concat(features, axis=1).dropna().astype(dtype='float64', copy=False)
-y_b = df.daily_price.dropna()
+X_b = pd.concat(features_b, axis=1).dropna().astype(dtype='float64', copy=False)
+y_b = df_b.daily_price.dropna()
 
 # X_sc = scale(X)
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.2)
-X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X.values, y.values, test_size=0.2)
+X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X_b.values, y_b.values, test_size=0.2)
 
 reg_line = LinearRegression()
 reg_ri = RidgeCV(cv=5)
@@ -35,21 +40,22 @@ reg_ada_boost = AdaBoostRegressor(n_estimators=100)
 
 
 def linear_all():
+    print("\nLinear Regression!\n")
     importance = []
     for i in range(len(features)):
         x_try = X_train_b[:, i]
         reg_ri.fit(x_try.reshape(-1, 1), y_train_b)
 
         importance.append([X.columns.values[i],
-                           reg_ri.score(x_try.reshape(-1, 1), y_train_b),
                            reg_ri.score(X_test[:, i].reshape(-1, 1), y_test)])
     importance.sort(key=lambda x: x[1])
     importance.reverse()
     for each in importance:
-        print(str(each[0]) + ':\t', each[1], each[2])
+        print(str(each[0]) + ':\t', each[1])
 
 
 def forest_test():
+    print("\nRandom Forest!\n")
     reg_Forest.fit(X_train_b, y_train_b)
     print('Accuracy:\t', reg_Forest.score(X_test, y_test))
     print('\nImportance for each:')
@@ -64,7 +70,7 @@ def forest_test():
 
 if __name__ == '__main__':
     linear_all()
-    # forest_test()
+    forest_test()
 
     # reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada_boost]
     # for reg in reg_all:
