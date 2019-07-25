@@ -67,8 +67,19 @@ def load_park(filename):
     f = list(f)
     park = []
     for each in f:
-        park.append([each[2], each[1]])
+        park.append([each[0], each[2], each[1]])
     return park
+
+def park_processing(_houses, _title):
+    park = load_park('../data/park.csv')
+    for each in park:
+        _title.append(each[0])
+    writer.writerow(_title)
+    for house in _houses:
+        for each in park:
+            dis = cal_distance(each[1], each[2], house[1], house[2])
+            house.append(dis)
+        writer.writerow(house)
 
 def load_scenery(filename):
     f = csv.reader(open(filename))
@@ -113,17 +124,6 @@ def cal_distance(lng1, lat1, lng2, lat2):
     distance = 2 * asin(sqrt(a)) * 6371 * 1000   # 地球平均半径，6371km
     distance = round(distance/1000, 3)
     return distance
-
-def park_processing(_houses, _title):
-    park = load_park('../data/park.csv')
-    for each in park:
-        _title.append(each[0])
-    writer.writerow(_title)
-    for house in _houses:
-        for each in park:
-            dis = cal_distance(each[0], each[1], house[1], house[2])
-            house.append(dis)
-        writer.writerow(house)
 
 # def cal_dis_on_map(ln1, la1, ln2, la2):
 #     try:
