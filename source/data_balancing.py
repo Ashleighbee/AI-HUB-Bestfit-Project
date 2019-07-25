@@ -46,6 +46,6 @@ if __name__ == '__main__':
 
     imbalanced_file = csv.reader(open('../data/housing_up_sampling.csv', 'r'))
 
-    balanced_file = csv.writer(open('../data/housing_balanced.csv', 'w', encoding='utf-8', newline=''))
+    balanced_file = csv.writer(open('../data/housing_price_balanced.csv', 'w', encoding='utf-8', newline=''))
     for line in down_sampling(imbalanced_file):
         balanced_file.writerow(line)
