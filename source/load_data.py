@@ -9,6 +9,7 @@ from selenium.common.exceptions import TimeoutException
 from collections import OrderedDict
 import re
 import pandas as pd
+import numpy as np
 
 # browser = webdriver.Firefox()
 # url = 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot'
@@ -16,8 +17,7 @@ import pandas as pd
 # wait = WebDriverWait(browser, 10)
 housing = open('../data/housing_new.csv', 'a', newline='', encoding='utf-8')
 writer = csv.writer(housing, dialect='excel')
-title = ['id', 'house_ln', 'house_la', 'subway', 'bus_stop']
-writer.writerow(title)
+
 csv.field_size_limit(int(5e8))
 
 
@@ -62,6 +62,22 @@ def load_bus(filename):
     # print(bus_stop)
     return bus_stop
 
+def load_park(filename):
+    f = csv.reader(open(filename))
+    f = list(f)
+    park = []
+    for each in f:
+        park.append([each[2], each[1]])
+    return park
+
+def load_scenery(filename):
+    f = csv.reader(open(filename))
+    f = list(f)
+    scenery = []
+    for each in f:
+        scenery.append([each[2], each[1]])
+    return scenery
+
 def load_list(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
     f = list(f)
@@ -79,13 +95,14 @@ def load_list(filename):
 
 def load_housing(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
-    # f = list(f)
+    f = list(f)
     house = []
     for each in f:
         house.append(each)
+    title = house[0]
     house = house[1:len(house)]
     # print(house)
-    return house
+    return house, title
 
 def cal_distance(lng1, lat1, lng2, lat2):
     # lng1,lat1,lng2,lat2 = (120.12802999999997,30.28708,115.86572000000001,28.7427)
@@ -155,29 +172,21 @@ def counting_sub(_houses):
         n += 1
     return new_house
 
-def counting_(_houses):
-    fa = load_bus('bus.csv')
+def counting_(_houses, fa):
     n = 1
-    new_house = []
     for house in _houses:
         count = 0
         for each in fa:
             dis = cal_distance(house[1], house[2], each[0], each[1])
             if dis == -1:
                 continue
-            elif dis < 0.5:
+            elif dis < 5:
                 count += 1
         house.append(count)
         writer.writerow(house)
-        new_house.append(house)
-        if n % 100 == 0:
+        if n % 500 == 0:
             print(n, 'houses done!')
         n += 1
-    return new_house
-
-def write_house_data(_data):
-    for line in _data:
-        writer.writerow(line)
 
 def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
     """
@@ -292,7 +301,7 @@ def is_pt_in_poly(aLon, aLat, pointList) -> bool:
 def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     """
     :param filename: housing_all.csv
-    :return: A dict. Keys are ids of houses. Values
+    :return: A dict. Keys are ids of houses. Values are crime rates.
     """
     f = csv.reader(open(filename, 'r', encoding='utf-8'))
     precinct_boundary = load_police_precinct_boundary(filename='../data/police.csv')
@@ -302,11 +311,11 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     count = 0   # For progress output
 
     for listing in f:
-        if listing[0] == 'id':
+        if listing[1] == 'id':
             continue
-        house_id = listing[0]
-        house_ln = float(listing[1])
-        house_la = float(listing[2])
+        house_id = listing[1]
+        house_ln = float(listing[2])
+        house_la = float(listing[3])
 
         precinct_name = 'None'  # Default precinct_name for houses not in any precincts
         for precinct in precinct_boundary.keys():
@@ -323,7 +332,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
                         precinct_name += 'th'
                     break
 
-        crime_rate_by_housing[house_id] = 'NaN' # Default crime rate for precinct_name == 'None'
+        crime_rate_by_housing[house_id] = np.nan # Default crime rate for precinct_name == 'None'
         if not precinct_name == 'None':
             if precinct_name == '14th':
                 crime_rate_by_housing[house_id] = crime_rate_by_precinct['Manhattan South Precinct']
@@ -343,7 +352,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
 
     return crime_rate_by_housing
 
-def add_to_main(filename):
+def write_crime_rate(filename):
     crime_rate_dic = cal_crime_rate_by_housing()
     retVal = []
     for key in crime_rate_dic.keys():
@@ -357,12 +366,9 @@ def add_to_main(filename):
     df2 .to_csv("../data/housing_all.csv")
 
 
-
 if __name__ == "__main__":
-    # houses = load_list('listings.csv')
-    # houses = load_housing('../data/housing.csv')
-    # houses = counting_sub(houses)
-    # print(houses)
-    # write_house_data(houses)
-    # load_subway('subway.csv')
-    add_to_main(filename='../data/housing_all.csv')
+    houses, title = load_housing('../data/housing_all.csv')
+    writer.writerow(title)
+    park = load_scenery('../data/scenery.csv')
+    counting_(houses, park)
+    # write_crime_rate(filename='../data/housing_all.csv')

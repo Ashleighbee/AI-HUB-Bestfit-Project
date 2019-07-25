@@ -5,6 +5,7 @@
 misc/
 *temp*
 *.png
+*listing*
 
 ### Python template
 # Byte-compiled / optimized / DLL files
