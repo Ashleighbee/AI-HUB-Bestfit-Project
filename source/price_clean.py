@@ -17,9 +17,9 @@ writer.writerow(title)
 if __name__ == '__main__':
     matched = 0
     for i in range(1, len(g)):
-        if g[i][23] == '':
+        if g[i][25] == '':
             continue
-        elif float(g[i][23]) > 250 or float(g[i][23]) < 50:
+        elif float(g[i][25]) > 250 or float(g[i][25]) < 50:
             continue
         else:
             writer.writerow(g[i])
