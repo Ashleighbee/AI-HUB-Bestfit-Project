@@ -14,7 +14,7 @@ def up_sampling(imbalanced_csv: csv.reader) -> list:
     title_line = imbalanced_list[0]
     balanced_list = [title_line]
     for i in range(1, len(imbalanced_list)):
-        price = float(imbalanced_list[i][25])  # get "daily price"
+        price = float(imbalanced_list[i][26])  # get "daily price"
 
         if price < 200: # Duplicate according to price
             balanced_list.append(imbalanced_list[i])
@@ -41,7 +41,7 @@ def down_sampling(imbalanced_csv: csv.reader) -> list:
     title_line = imbalanced_list[0]
     balanced_list = [title_line]
     for i in range(1, len(imbalanced_list)):
-        price = float(imbalanced_list[i][25])  # get "daily price"
+        price = float(imbalanced_list[i][26])  # get "daily price"
 
         if 50 < price < 100:
             if random.random() > 0.3:   # Drop 3/10 of houses in 50 - 100

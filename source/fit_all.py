@@ -39,17 +39,15 @@ def linear_all():
     for i in range(len(features)):
         x_try = X_train_b[:, i]
         reg_ri.fit(x_try.reshape(-1, 1), y_train_b)
-        # reg_line.fit(x_try.reshape(-1, 1), y_train)
+
         importance.append([X.columns.values[i],
                            reg_ri.score(x_try.reshape(-1, 1), y_train_b),
                            reg_ri.score(X_test[:, i].reshape(-1, 1), y_test)])
     importance.sort(key=lambda x: x[1])
     importance.reverse()
     for each in importance:
-        print(str(each[0]) + ':\t', each[1])
+        print(str(each[0]) + ':\t', each[1], each[2])
 
-        # print(X.columns.values[i]+':\t',
-        #       reg_ri.score(x_try.reshape(-1, 1), y_train_b), reg_ri.score(X_test[:, i].reshape(-1, 1), y_test))
 
 def forest_test():
     reg_Forest.fit(X_train_b, y_train_b)

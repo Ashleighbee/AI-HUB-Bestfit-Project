@@ -17,11 +17,12 @@ writer = csv.writer(housing_new, dialect='excel')
 if __name__ == '__main__':
     matched = 0
     for i in range(0, len(g)):
-        if 'daily_price' in g[i][25]:
+        price = g[i][26]
+        if 'daily_price' in price:
             writer.writerow(g[i])
-        elif g[i][25] == '':
+        elif price == '':
             continue
-        elif float(g[i][25]) > 800 or float(g[i][25]) < 50:
+        elif float(price) > 800 or float(price) < 50:
             continue
         else:
             writer.writerow(g[i])
