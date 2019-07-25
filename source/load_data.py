@@ -86,8 +86,20 @@ def load_scenery(filename):
     f = list(f)
     scenery = []
     for each in f:
-        scenery.append([each[2], each[1]])
+        scenery.append([each[0], each[2], each[1]])
     return scenery
+
+def scenery_processing(_houses, _title):
+    scenery = load_park('../data/scenery.csv')
+    for each in scenery:
+        _title.append(each[0])
+    writer.writerow(_title)
+    for house in _houses:
+        for each in scenery:
+            dis = cal_distance(each[1], each[2], house[1], house[2])
+            house.append(dis)
+        writer.writerow(house)
+
 
 def load_list(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
@@ -379,7 +391,7 @@ def write_crime_rate(filename):
 
 if __name__ == "__main__":
     houses, title = load_housing('../data/housing_all.csv')
-    park_processing(houses, title)
+    scenery_processing(houses, title)
     # writer.writerow(title)
     # park = load_scenery('../data/scenery.csv')
     # counting_(houses, park)
