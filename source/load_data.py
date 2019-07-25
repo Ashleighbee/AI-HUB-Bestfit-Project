@@ -114,6 +114,17 @@ def cal_distance(lng1, lat1, lng2, lat2):
     distance = round(distance/1000, 3)
     return distance
 
+def park_processing(_houses, _title):
+    park = load_park('../data/park.csv')
+    for each in park:
+        _title.append(each[0])
+    writer.writerow(_title)
+    for house in _houses:
+        for each in park:
+            dis = cal_distance(each[0], each[1], house[1], house[2])
+            house.append(dis)
+        writer.writerow(house)
+
 # def cal_dis_on_map(ln1, la1, ln2, la2):
 #     try:
 #         input1 = wait.until(EC.presence_of_element_located(
@@ -368,7 +379,8 @@ def write_crime_rate(filename):
 
 if __name__ == "__main__":
     houses, title = load_housing('../data/housing_all.csv')
-    writer.writerow(title)
-    park = load_scenery('../data/scenery.csv')
-    counting_(houses, park)
+    park_processing(houses, title)
+    # writer.writerow(title)
+    # park = load_scenery('../data/scenery.csv')
+    # counting_(houses, park)
     # write_crime_rate(filename='../data/housing_all.csv')
