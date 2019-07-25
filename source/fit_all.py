@@ -52,8 +52,8 @@ def forest_test():
 
 
 if __name__ == '__main__':
-    linear_all()
-    # forest_test()
+    # linear_all()
+    forest_test()
 
     # reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada_boost]
     # for reg in reg_all:
