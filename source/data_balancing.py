@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 def up_sampling(imbalanced_csv: csv.reader) -> list:
@@ -52,14 +53,19 @@ def down_sampling(imbalanced_csv: csv.reader) -> list:
 
 
 if __name__ == '__main__':
-    imbalanced_file = csv.reader(open('../data/housing_all.csv', 'r'))
+    imbalanced_file = csv.reader(open('../data/housing_clean.csv', 'r'))
 
     balanced_file = csv.writer(open('../data/housing_up_sampling.csv', 'w', encoding='utf-8', newline=''))
     for line in up_sampling(imbalanced_file):
         balanced_file.writerow(line)
 
-    imbalanced_file = csv.reader(open('../data/housing_up_sampling.csv', 'r'))
+    f = open('../data/housing_up_sampling.csv', 'r')
+    imbalanced_file = csv.reader(f)
 
     balanced_file = csv.writer(open('../data/housing_price_balanced.csv', 'w', encoding='utf-8', newline=''))
     for line in down_sampling(imbalanced_file):
         balanced_file.writerow(line)
+
+    print('Price balancing done!')
+    f.close()
+    os.remove('../data/housing_up_sampling.csv')

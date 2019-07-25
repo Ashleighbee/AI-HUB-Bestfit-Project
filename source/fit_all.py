@@ -11,7 +11,7 @@ from sklearn.preprocessing import scale
 import matplotlib.pyplot as plt
 
 
-df = pd.read_csv('../data/housing_all.csv')
+df = pd.read_csv('../data/housing_clean.csv')
 df_b = pd.read_csv('../data/housing_price_balanced.csv')
 features = [df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom, df.bedroom, df.beds, df.guests,
             df.num_of_review, df.review_score, df.Entire_home, df.host_response_rate, df.superhost, df.crime_rate]
@@ -25,7 +25,6 @@ y_b = df.daily_price.dropna()
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.2)
 X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X.values, y.values, test_size=0.2)
 
-
 reg_line = LinearRegression()
 reg_ri = RidgeCV(cv=5)
 reg_tree = DecisionTreeRegressor(max_depth=10)
@@ -36,18 +35,25 @@ reg_ada_boost = AdaBoostRegressor(n_estimators=100)
 
 
 def linear_all():
+    importance = []
     for i in range(len(features)):
-        x_try = X_train[:, i]
-        reg_ri.fit(x_try.reshape(-1, 1), y_train)
+        x_try = X_train_b[:, i]
+        reg_ri.fit(x_try.reshape(-1, 1), y_train_b)
         # reg_line.fit(x_try.reshape(-1, 1), y_train)
-        print(X.columns.values[i]+':\t', reg_ri.score(x_try.reshape(-1, 1), y_train))
-        print(X.columns.values[i]+':\t', reg_ri.score(X_test_b[:, i].reshape(-1, 1), y_test_b))
+        importance.append([X.columns.values[i],
+                           reg_ri.score(x_try.reshape(-1, 1), y_train_b),
+                           reg_ri.score(X_test[:, i].reshape(-1, 1), y_test)])
+    importance.sort(key=lambda x: x[1])
+    importance.reverse()
+    for each in importance:
+        print(str(each[0]) + ':\t', each[1])
+
+        # print(X.columns.values[i]+':\t',
+        #       reg_ri.score(x_try.reshape(-1, 1), y_train_b), reg_ri.score(X_test[:, i].reshape(-1, 1), y_test))
 
 def forest_test():
-    reg_Forest.fit(X_train, y_train)
+    reg_Forest.fit(X_train_b, y_train_b)
     print('Accuracy:\t', reg_Forest.score(X_test, y_test))
-    print('n_estimators: ', reg_Forest.n_estimators,
-          '\nmax_depth: ', reg_Forest.max_depth)
     print('\nImportance for each:')
     importance = []
     for i in range(0, len(X.columns.values)):
@@ -59,8 +65,8 @@ def forest_test():
 
 
 if __name__ == '__main__':
-    # linear_all()
-    forest_test()
+    linear_all()
+    # forest_test()
 
     # reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada_boost]
     # for reg in reg_all:
