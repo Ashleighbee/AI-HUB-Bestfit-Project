@@ -11,9 +11,9 @@ from sklearn.preprocessing import scale
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('../data/housing_clean.csv')
-X = pd.concat([df.subway, df.bus_stop, df.accommodates, df.bathroom, df.bedroom, df.beds,
-               df.guests, df.num_of_review, df.review_score, df.Entire_home, df.crime_rate],
-              axis=1).dropna().astype(dtype='float64', copy=False)
+features = [df.subway, df.bus_stop, df.accommodates, df.bathroom, df.bedroom, df.beds,
+            df.guests, df.num_of_review, df.review_score, df.Entire_home, df.crime_rate]
+X = pd.concat(features, axis=1).dropna().astype(dtype='float64', copy=False)
 y = df.daily_price.dropna()
 
 X_sc = scale(X)
@@ -29,7 +29,7 @@ reg_ada_boost = AdaBoostRegressor(n_estimators=100)
 
 
 def linear_all():
-    for i in range(11):
+    for i in range(len(features)):
         x_try = X_train[:, i]
         reg_ri.fit(x_try.reshape(-1, 1), y_train)
         # reg_line.fit(x_try.reshape(-1, 1), y_train)

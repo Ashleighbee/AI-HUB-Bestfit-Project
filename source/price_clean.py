@@ -19,7 +19,7 @@ if __name__ == '__main__':
     for i in range(1, len(g)):
         if g[i][23] == '':
             continue
-        elif float(g[i][23]) > 1000:
+        elif float(g[i][23]) > 200:
             continue
         else:
             writer.writerow(g[i])
