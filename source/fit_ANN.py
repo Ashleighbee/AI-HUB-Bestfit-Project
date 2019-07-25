@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import random
 import numpy as np
 
-df = pd.read_csv('../data/housing_clean.csv')
+df = pd.read_csv('../data/housing_price_balanced.csv')
 features = [df.subway, df.bus_stop, df.accommodates, df.bathroom, df.bedroom, df.beds,
             df.guests, df.num_of_review, df.review_score, df.Entire_home, df.crime_rate]
 X = pd.concat(features, axis=1).dropna().astype(dtype='float64', copy=False)
