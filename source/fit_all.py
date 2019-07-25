@@ -10,14 +10,21 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import scale
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('../data/housing_clean.csv')
-features = [df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom, df.bedroom, df.beds,
-            df.guests, df.num_of_review, df.review_score, df.Entire_home, df.crime_rate]
+
+df = pd.read_csv('../data/housing_all.csv')
+df_b = pd.read_csv('../data/housing_price_balanced.csv')
+features = [df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom, df.bedroom, df.beds, df.guests,
+            df.num_of_review, df.review_score, df.Entire_home, df.host_response_rate, df.superhost, df.crime_rate]
 X = pd.concat(features, axis=1).dropna().astype(dtype='float64', copy=False)
 y = df.daily_price.dropna()
 
+X_b = pd.concat(features, axis=1).dropna().astype(dtype='float64', copy=False)
+y_b = df.daily_price.dropna()
+
 # X_sc = scale(X)
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.2)
+X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X.values, y.values, test_size=0.2)
+
 
 reg_line = LinearRegression()
 reg_ri = RidgeCV(cv=5)
@@ -34,7 +41,7 @@ def linear_all():
         reg_ri.fit(x_try.reshape(-1, 1), y_train)
         # reg_line.fit(x_try.reshape(-1, 1), y_train)
         print(X.columns.values[i]+':\t', reg_ri.score(x_try.reshape(-1, 1), y_train))
-        print(X.columns.values[i]+':\t', reg_ri.score(X_test[:, i].reshape(-1, 1), y_test))
+        print(X.columns.values[i]+':\t', reg_ri.score(X_test_b[:, i].reshape(-1, 1), y_test_b))
 
 def forest_test():
     reg_Forest.fit(X_train, y_train)

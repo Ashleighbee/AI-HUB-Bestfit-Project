@@ -6,7 +6,7 @@ def up_sampling(imbalanced_csv: csv.reader) -> list:
     title_line = imbalanced_list[0]
     balanced_list = [title_line]
     for i in range(1, len(imbalanced_list)):
-        price = float(imbalanced_list[i][23])  # get "daily price"
+        price = float(imbalanced_list[i][25])  # get "daily price"
 
         if price < 200:
             balanced_list.append(imbalanced_list[i])
@@ -26,7 +26,7 @@ def down_sampling(imbalanced_csv: csv.reader) -> list:
     title_line = imbalanced_list[0]
     balanced_list = [title_line]
     for i in range(1, len(imbalanced_list)):
-        price = float(imbalanced_list[i][23])  # get "daily price"
+        price = float(imbalanced_list[i][25])  # get "daily price"
 
         if 50 < price < 100:  # Drop half of data under price of 200
             if random.random() > 0.3:
