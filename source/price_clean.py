@@ -22,7 +22,7 @@ if __name__ == '__main__':
             writer.writerow(g[i])
         elif price == '':
             continue
-        elif float(price) > 800 or float(price) < 50:
+        elif float(price) > 384:
             continue
         else:
             writer.writerow(g[i])
