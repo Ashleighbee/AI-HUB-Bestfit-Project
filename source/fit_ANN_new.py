@@ -51,8 +51,7 @@ X = pd.concat([df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.sce
                 # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
                 # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
                 # df.SOHO, df.High_Line_Park,
-                df.sub_dist_1, df.sub_dist_2, df.sub_dist_3,
-                df.daily_price], axis=1)
+                df.sub_dist_1, df.sub_dist_2, df.sub_dist_3], axis=1)
 y = dataset.daily_price
 
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.2)
@@ -80,7 +79,7 @@ def trying():
             for n3 in range(50, 150, 5):
                 mm = training(n1, n2, n3)
                 if mm > best_score:
-                    m = mm
+                    best_score = mm
                     nodes = [n1, n2, n3]
                 print('\tBest: ', 'Nodes: ', nodes, '\t\tScore: ', best_score)
 
