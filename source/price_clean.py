@@ -6,7 +6,7 @@ judge2 = re.compile(r'(^[0-9]{1,3})+(.[0-9]{1,6})]?$')
 g = list(csv.reader(open('../data/housing_all.csv', encoding='utf-8', errors='ignore')))
 housing_new = open('../data/housing_clean.csv', 'a', newline='', encoding='utf-8')
 writer = csv.writer(housing_new, dialect='excel')
-title = ['id', 'house_ln', 'house_la', 'subway', 'bus_stop', 'street', 'room_type', 'accommodates',
+title = ['id', 'house_ln', 'house_la', 'subway', 'bus_stop', 'park', 'scenery', 'street', 'room_type', 'accommodates',
          'bathroom', 'bedroom', 'beds', 'bed_type', 'guests', 'num_of_review', 'review_score', 'Entire_home',
          'Private_room', 'Shared_room', 'crime_rate', 'host_response_time', 'host_response_rate',
          'superhost', 'host_neighborhood',
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     for i in range(1, len(g)):
         if g[i][23] == '':
             continue
-        elif float(g[i][23]) > 200:
+        elif float(g[i][23]) > 250 or float(g[i][23]) < 50:
             continue
         else:
             writer.writerow(g[i])
