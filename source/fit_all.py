@@ -18,7 +18,8 @@ features = [df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.scener
             df.superhost, df.crime_rate,
             df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park, df.Washington_Square_Park,
             df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
-            df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
+            df.Fort_Tilden, df.Greenbelt,
+            df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
             df.Empire_state_Building, df.American_Museum_of_Natual_History, df.Museum_of_Modern_Art, df.Times_Square,
             df.One_world_trade_cente, df.Grand_Centreal_Terminal, df.intrepid_sea_air, df.Fifth_Avenue,
             df.Brooklyn_Bridge, df.Wall_Street, df.Flatiron_Building, df.New_York_University, df.Broadway,
@@ -51,7 +52,7 @@ reg_line = LinearRegression()
 reg_ri = RidgeCV(cv=5)
 reg_tree = DecisionTreeRegressor(max_depth=10)
 reg_bagging = BaggingRegressor()
-reg_Forest = RandomForestRegressor(n_estimators=100, max_depth=10)
+reg_Forest = RandomForestRegressor(n_estimators=150, min_samples_split=2, max_depth=10)
 reg_boosting = GradientBoostingRegressor(n_estimators=100)
 reg_ada_boost = AdaBoostRegressor(n_estimators=100)
 
@@ -86,7 +87,7 @@ def forest_test():
 
 
 if __name__ == '__main__':
-    linear_all()
+    # linear_all()
     forest_test()
 
     # reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada_boost]
