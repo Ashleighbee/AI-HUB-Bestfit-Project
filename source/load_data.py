@@ -100,7 +100,6 @@ def scenery_processing(_houses, _title):
             house.append(dis)
         writer.writerow(house)
 
-
 def load_list(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
     f = list(f)

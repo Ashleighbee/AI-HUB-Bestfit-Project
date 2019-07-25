@@ -14,19 +14,19 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('../data/housing_clean.csv')
 # df_b = pd.read_csv('../data/housing_price_balanced.csv')
 features = [df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom,
-            df.bedroom, df.beds, df.guests, df.Entire_home, df.response_time_num, df.host_response_rate,
+            df.bedroom, df.beds, df.guests,  df.Entire_home, df.response_time_num, df.host_response_rate,
             df.superhost, df.crime_rate,
-            df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park, df.Washington_Square_Park,
-            df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
-            df.Fort_Tilden, df.Greenbelt,
-            df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
-            df.Empire_state_Building, df.American_Museum_of_Natual_History, df.Museum_of_Modern_Art, df.Times_Square,
-            df.One_world_trade_cente, df.Grand_Centreal_Terminal, df.intrepid_sea_air, df.Fifth_Avenue,
-            df.Brooklyn_Bridge, df.Wall_Street, df.Flatiron_Building, df.New_York_University, df.Broadway,
-            df.China_Town, df.New_york_Public_Library, df.West_Point_Academy, df.Columbia_University,
-            df.Madison_Square_Garden, df.madame_tussauds_new_york, df.National_September_11_Memorial_Museum,
-            df.Manhattan_Skyline, df.United_Nations_Headquarters, df.SOHO, df.St_Patrick_Cathedral,
-            df.High_Line_Park, df.Top_of_the_Rock]
+            df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
+            df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
+            df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
+            df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters, df.One_world_trade_cente,
+            # df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
+            # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
+            # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
+            # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
+            # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
+            # df.SOHO, df.High_Line_Park,
+            df.sub_dist_1, df.sub_dist_2, df.sub_dist_3]
 
 # features_b = [df_b.subway, df_b.bus_stop, df_b.park, df_b.scenery, df_b.accommodates, df_b.bathroom, df_b.bedroom,
 #               df_b.beds, df_b.guests, df_b.Entire_home, df_b.response_time_num, df_b.host_response_rate,
@@ -87,7 +87,7 @@ def forest_test():
 
 
 if __name__ == '__main__':
-    # linear_all()
+    linear_all()
     forest_test()
 
     # reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada_boost]
