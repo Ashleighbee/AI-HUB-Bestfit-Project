@@ -137,37 +137,37 @@ def cal_distance(lng1, lat1, lng2, lat2):
     distance = round(distance/1000, 3)
     return distance
 
-def cal_dis_on_map(ln1, la1, ln2, la2):
-    try:
-        input1 = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(2) > '
-                              'span:nth-child(2) > input:nth-child(1)')))
-        input2 = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(3) > '
-                              'span:nth-child(2) > input:nth-child(1)')))
-        btn = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(4) > '
-                              'input:nth-child(2)')))
-        input1.clear()
-        input2.clear()
-        input1.send_keys(la1 + ', ' + ln1)
-        input2.send_keys(la2 + ', ' + ln2)
-        btn.click()
-        time.sleep(3)
-        dis = wait.until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '#routing_summary'))).text
-        dis = re.split('[：:m]', dis)[1]
-
-        if 'k' in dis:
-            dis = dis.strip('km')
-            dis = float(dis) * 1000
-        else:
-            dis = float(dis)
-        return dis
-    except TimeoutException:
-        # warning = wait.until(EC.presence_of_element_located(
-        #     (By.CSS_SELECTOR, '.search_results_error'))).text
-        return -1
+# def cal_dis_on_map(ln1, la1, ln2, la2):
+#     try:
+#         input1 = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(2) > '
+#                               'span:nth-child(2) > input:nth-child(1)')))
+#         input2 = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(3) > '
+#                               'span:nth-child(2) > input:nth-child(1)')))
+#         btn = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#sidebar > div:nth-child(1) > form:nth-child(2) > div:nth-child(4) > '
+#                               'input:nth-child(2)')))
+#         input1.clear()
+#         input2.clear()
+#         input1.send_keys(la1 + ', ' + ln1)
+#         input2.send_keys(la2 + ', ' + ln2)
+#         btn.click()
+#         time.sleep(3)
+#         dis = wait.until(EC.presence_of_element_located(
+#             (By.CSS_SELECTOR, '#routing_summary'))).text
+#         dis = re.split('[：:m]', dis)[1]
+#
+#         if 'k' in dis:
+#             dis = dis.strip('km')
+#             dis = float(dis) * 1000
+#         else:
+#             dis = float(dis)
+#         return dis
+#     except TimeoutException:
+#         # warning = wait.until(EC.presence_of_element_located(
+#         #     (By.CSS_SELECTOR, '.search_results_error'))).text
+#         return -1
 
 def counting_sub(_houses):
     fa = load_subway('../data/subway.csv')
@@ -194,6 +194,37 @@ def counting_sub(_houses):
             print(n, 'houses done!')
         n += 1
     return new_house
+
+
+def write_subway_distance(housefile='../data/housing_all.csv',
+                          subwayfile='../data/subway.csv'):
+    subway_list = load_subway(subwayfile)
+    subway_cord_list = []
+    # grab coordinates
+    for i in subway_list:
+        subway_cord_list.append(tuple(i[0]))
+
+    house_list = list(csv.reader(open(housefile, 'r')))
+    house_writer = csv.writer(open(housefile, 'w', newline=''))
+    house_list[0].extend(['sub_dist_1', 'sub_dist_2', 'sub_dist_3'])
+    house_writer.writerow(house_list[0])
+
+    for line in house_list:
+        if line[0] == 'id':
+            continue
+
+        ln = line[1]
+        la = line[2]
+
+        dist_list = []
+
+        for sub_cord in subway_cord_list:
+            dist_list.append(cal_distance(ln, la, sub_cord[0], sub_cord[1]))
+
+        dist_list.sort()
+        line.extend(dist_list[:3])
+        house_writer.writerow(line)
+
 
 def counting_(_houses, fa):
     n = 1
@@ -390,11 +421,4 @@ def write_crime_rate(filename):
 
 
 if __name__ == "__main__":
-    houses, title = load_housing('../data/housing_all.csv')
-    # scenery_processing(houses, title)
-    # for i in range(1, 10):
-    #     cal_dis_on_map(houses[i][1], houses[i][2], houses[i+1][1], houses[i+1][2])
-    # writer.writerow(title)
-    # park = load_scenery('../data/scenery.csv')
-    # counting_(houses, park)
-    # write_crime_rate(filename='../data/housing_all.csv')
+    write_subway_distance()
