@@ -17,8 +17,7 @@ import numpy as np
 # wait = WebDriverWait(browser, 10)
 housing = open('../data/housing_new.csv', 'a', newline='', encoding='utf-8')
 writer = csv.writer(housing, dialect='excel')
-title = ['id', 'house_ln', 'house_la', 'subway', 'bus_stop']
-writer.writerow(title)
+
 csv.field_size_limit(int(5e8))
 
 
@@ -63,6 +62,14 @@ def load_bus(filename):
     # print(bus_stop)
     return bus_stop
 
+def load_park(filename):
+    f = csv.reader(open(filename))
+    f = list(f)
+    park = []
+    for each in f:
+        park.append([each[2], each[1]])
+    return park
+
 def load_list(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
     f = list(f)
@@ -80,13 +87,14 @@ def load_list(filename):
 
 def load_housing(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
-    # f = list(f)
+    f = list(f)
     house = []
     for each in f:
         house.append(each)
+    title = house[0]
     house = house[1:len(house)]
     # print(house)
-    return house
+    return house, title
 
 def cal_distance(lng1, lat1, lng2, lat2):
     # lng1,lat1,lng2,lat2 = (120.12802999999997,30.28708,115.86572000000001,28.7427)
@@ -156,29 +164,22 @@ def counting_sub(_houses):
         n += 1
     return new_house
 
-def counting_(_houses):
-    fa = load_bus('bus.csv')
+def counting_(_houses, fa):
     n = 1
-    new_house = []
+
     for house in _houses:
         count = 0
         for each in fa:
             dis = cal_distance(house[1], house[2], each[0], each[1])
             if dis == -1:
                 continue
-            elif dis < 0.5:
+            elif dis < 3:
                 count += 1
         house.append(count)
         writer.writerow(house)
-        new_house.append(house)
-        if n % 100 == 0:
+        if n % 500 == 0:
             print(n, 'houses done!')
         n += 1
-    return new_house
-
-def write_house_data(_data):
-    for line in _data:
-        writer.writerow(line)
 
 def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
     """
@@ -359,10 +360,8 @@ def write_crime_rate(filename):
 
 
 if __name__ == "__main__":
-    # houses = load_list('listings.csv')
-    # houses = load_housing('../data/housing.csv')
-    # houses = counting_sub(houses)
-    # print(houses)
-    # write_house_data(houses)
-    # load_subway('subway.csv')
-    write_crime_rate(filename='../data/housing_all.csv')
+    houses, title = load_housing('../data/housing_all.csv')
+    writer.writerow(title)
+    park = load_park('../data/park.csv')
+    counting_(houses, park)
+    # write_crime_rate(filename='../data/housing_all.csv')
