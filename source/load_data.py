@@ -70,6 +70,14 @@ def load_park(filename):
         park.append([each[2], each[1]])
     return park
 
+def load_scenery(filename):
+    f = csv.reader(open(filename))
+    f = list(f)
+    scenery = []
+    for each in f:
+        scenery.append([each[2], each[1]])
+    return scenery
+
 def load_list(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
     f = list(f)
@@ -166,14 +174,13 @@ def counting_sub(_houses):
 
 def counting_(_houses, fa):
     n = 1
-
     for house in _houses:
         count = 0
         for each in fa:
             dis = cal_distance(house[1], house[2], each[0], each[1])
             if dis == -1:
                 continue
-            elif dis < 3:
+            elif dis < 5:
                 count += 1
         house.append(count)
         writer.writerow(house)
@@ -362,6 +369,6 @@ def write_crime_rate(filename):
 if __name__ == "__main__":
     houses, title = load_housing('../data/housing_all.csv')
     writer.writerow(title)
-    park = load_park('../data/park.csv')
+    park = load_scenery('../data/scenery.csv')
     counting_(houses, park)
     # write_crime_rate(filename='../data/housing_all.csv')

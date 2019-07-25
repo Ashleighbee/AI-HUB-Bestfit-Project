@@ -11,12 +11,12 @@ from sklearn.preprocessing import scale
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('../data/housing_clean.csv')
-features = [df.subway, df.bus_stop, df.accommodates, df.bathroom, df.bedroom, df.beds,
+features = [df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom, df.bedroom, df.beds,
             df.guests, df.num_of_review, df.review_score, df.Entire_home, df.crime_rate]
 X = pd.concat(features, axis=1).dropna().astype(dtype='float64', copy=False)
 y = df.daily_price.dropna()
 
-X_sc = scale(X)
+# X_sc = scale(X)
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.2)
 
 reg_line = LinearRegression()
@@ -53,7 +53,7 @@ def forest_test():
 
 if __name__ == '__main__':
     # linear_all()
-    # forest_test()
+    forest_test()
 
     # reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada_boost]
     # for reg in reg_all:
@@ -61,5 +61,5 @@ if __name__ == '__main__':
     #     print(reg.score(X_test, y_test))
 
     # print(X.columns.values)
-    plt.hist(X.values[:, 3])
-    plt.show()
+    # plt.hist(X.values[:, 3])
+    # plt.show()
