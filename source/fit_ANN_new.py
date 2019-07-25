@@ -74,9 +74,9 @@ def training(n1, n2, n3):
 def trying():
     best_score = 0
     nodes = []
-    for n1 in range(50, 150, 5):
-        for n2 in range(50, 150, 5):
-            for n3 in range(50, 150, 5):
+    for n1 in range(30, 150, 5):
+        for n2 in range(25, 120, 5):
+            for n3 in range(5, 50, 5):
                 mm = training(n1, n2, n3)
                 if mm > best_score:
                     best_score = mm
