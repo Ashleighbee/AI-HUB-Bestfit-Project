@@ -35,7 +35,7 @@ def load_subway(filename):
                 r.append(f[i][j])
         sub_statiton.append([sub, r])
 
-    print(sub_statiton)
+    # print(sub_statiton)
     return sub_statiton
 
 
@@ -105,6 +105,7 @@ def scenery_processing(_houses, _title):
             dis = cal_distance(each[1], each[2], house[1], house[2])
             house.append(dis)
         writer.writerow(house)
+
 
 def load_list(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
@@ -177,6 +178,7 @@ def cal_distance(lng1, lat1, lng2, lat2):
 #         #     (By.CSS_SELECTOR, '.search_results_error'))).text
 #         return -1
 
+
 def counting_sub(_houses):
     fa = load_subway('../data/subway.csv')
     n = 1
@@ -204,17 +206,19 @@ def counting_sub(_houses):
     return new_house
 
 
-def write_subway_distance(housefile='../data/housing_all.csv',
-                          subwayfile='../data/subway.csv'):
-    subway_list = load_subway(subwayfile)
-    subway_cord_list = []
+def write_stations_distance(housefile, stationfile, load_func, new_labels:tuple):
+    station_list = load_func(stationfile)
+    station_cord_list = []
     # grab coordinates
-    for i in subway_list:
-        subway_cord_list.append(tuple(i[0]))
+    for i in station_list:
+        if load_func == load_subway:
+            station_cord_list.append(tuple(i[0]))
+        elif load_func == load_bus:
+            station_cord_list.append(tuple(i))
 
     house_list = list(csv.reader(open(housefile, 'r')))
     house_writer = csv.writer(open(housefile, 'w', newline=''))
-    house_list[0].extend(['sub_dist_4', 'sub_dist_5', 'sub_dist_6'])
+    house_list[0].extend(new_labels)
     house_writer.writerow(house_list[0])
 
     for line in house_list:
@@ -226,11 +230,11 @@ def write_subway_distance(housefile='../data/housing_all.csv',
 
         dist_list = []
 
-        for sub_cord in subway_cord_list:
+        for sub_cord in station_cord_list:
             dist_list.append(cal_distance(ln, la, sub_cord[0], sub_cord[1]))
 
         dist_list.sort()
-        line.extend(dist_list[3:6])
+        line.extend(dist_list[:len(new_labels)])
         house_writer.writerow(line)
 
 
@@ -434,4 +438,7 @@ def write_crime_rate(filename):
 
 
 if __name__ == "__main__":
-    write_subway_distance()
+    write_stations_distance(housefile='../data/housing_all.csv',
+                            stationfile='../data/bus.csv',
+                            load_func=load_bus,
+                            new_labels=('bus_dist_1', 'bus_dist_2', 'bus_dist_3'))
