@@ -75,7 +75,7 @@ def linear_all():
 def forest_test():
     print("\nRandom Forest\n")
     reg_Forest.fit(X_train, y_train)
-    print('Accuracy:\t', reg_Forest.score(X_test, y_test))
+    print('R-square:\t', reg_Forest.score(X_test, y_test))
     print('\nImportance for each:')
     importance = []
     for i in range(0, len(X.columns.values)):
@@ -87,7 +87,7 @@ def forest_test():
 
 
 if __name__ == '__main__':
-    linear_all()
+    # linear_all()
     forest_test()
 
     # reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada_boost]

@@ -17,7 +17,7 @@ def price_clean(line_list: list, writer: csv.writer):
 
 
 if __name__ == '__main__':
-    housing_new = open('../data/housing_clean.csv', 'a', newline='', encoding='utf-8')
+    housing_new = open('../data/housing_clean.csv', 'w', newline='', encoding='utf-8')
     csv_writer = csv.writer(housing_new, dialect='excel')
     g = list(csv.reader(open('../data/housing_all.csv', encoding='utf-8', errors='ignore')))
     price_clean(g, csv_writer)

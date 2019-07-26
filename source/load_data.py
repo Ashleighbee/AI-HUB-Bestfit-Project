@@ -38,17 +38,19 @@ def load_subway(filename):
     print(sub_statiton)
     return sub_statiton
 
+
 def load_university(filename):
     f = csv.reader(open(filename))
     f = list(f)
     university = []
-    for i in range(1, len(f)-1):
+    for i in range(1, len(f) - 1):
         s = f[i][0].strip(')')
-        s = s[s.index('(')+1:]
+        s = s[s.index('(') + 1:]
         pos = s.split(' ')
         university.append([float(pos[0]), float(pos[1]), f[i][1]])
         # print(university)
     return university
+
 
 def load_bus(filename):
     f = csv.reader(open(filename))
@@ -62,6 +64,7 @@ def load_bus(filename):
     # print(bus_stop)
     return bus_stop
 
+
 def load_park(filename):
     f = csv.reader(open(filename))
     f = list(f)
@@ -69,6 +72,7 @@ def load_park(filename):
     for each in f:
         park.append([each[0], each[2], each[1]])
     return park
+
 
 def park_processing(_houses, _title):
     park = load_park('../data/park.csv')
@@ -81,6 +85,7 @@ def park_processing(_houses, _title):
             house.append(dis)
         writer.writerow(house)
 
+
 def load_scenery(filename):
     f = csv.reader(open(filename))
     f = list(f)
@@ -88,6 +93,7 @@ def load_scenery(filename):
     for each in f:
         scenery.append([each[0], each[2], each[1]])
     return scenery
+
 
 def scenery_processing(_houses, _title):
     scenery = load_park('../data/scenery.csv')
@@ -115,6 +121,7 @@ def load_list(filename):
     print(house)
     return house
 
+
 def load_housing(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
     f = list(f)
@@ -126,15 +133,17 @@ def load_housing(filename):
     # print(house)
     return house, title
 
+
 def cal_distance(lng1, lat1, lng2, lat2):
     # lng1,lat1,lng2,lat2 = (120.12802999999997,30.28708,115.86572000000001,28.7427)
-    lng1, lat1, lng2, lat2 = map(radians, [float(lng1), float(lat1), float(lng2), float(lat2)])     # 经纬度转换成弧度
+    lng1, lat1, lng2, lat2 = map(radians, [float(lng1), float(lat1), float(lng2), float(lat2)])  # 经纬度转换成弧度
     dlon = lng2 - lng1
-    dlat = lat2-lat1
-    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    distance = 2 * asin(sqrt(a)) * 6371 * 1000   # 地球平均半径，6371km
-    distance = round(distance/1000, 3)
+    dlat = lat2 - lat1
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    distance = 2 * asin(sqrt(a)) * 6371 * 1000  # 地球平均半径，6371km
+    distance = round(distance / 1000, 3)
     return distance
+
 
 # def cal_dis_on_map(ln1, la1, ln2, la2):
 #     try:
@@ -205,7 +214,7 @@ def write_subway_distance(housefile='../data/housing_all.csv',
 
     house_list = list(csv.reader(open(housefile, 'r')))
     house_writer = csv.writer(open(housefile, 'w', newline=''))
-    house_list[0].extend(['sub_dist_1', 'sub_dist_2', 'sub_dist_3'])
+    house_list[0].extend(['sub_dist_4', 'sub_dist_5', 'sub_dist_6'])
     house_writer.writerow(house_list[0])
 
     for line in house_list:
@@ -221,7 +230,7 @@ def write_subway_distance(housefile='../data/housing_all.csv',
             dist_list.append(cal_distance(ln, la, sub_cord[0], sub_cord[1]))
 
         dist_list.sort()
-        line.extend(dist_list[:3])
+        line.extend(dist_list[3:6])
         house_writer.writerow(line)
 
 
@@ -241,6 +250,7 @@ def counting_(_houses, fa):
             print(n, 'houses done!')
         n += 1
 
+
 def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
     """
     :param filename: Crime rate data file (in json)
@@ -248,7 +258,7 @@ def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
     """
     import json
 
-    def my_obj_pairs_hook(lst): # Deal with duplicate keys in json
+    def my_obj_pairs_hook(lst):  # Deal with duplicate keys in json
         result = {}
         count = {}
         for key, val in lst:
@@ -278,6 +288,7 @@ def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
 
     return per1000_list
 
+
 def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
     """
     :param filename:
@@ -290,7 +301,7 @@ def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
                 ......
              }
     """
-    f = csv.reader(open(filename,  'r', encoding='utf-8'))
+    f = csv.reader(open(filename, 'r', encoding='utf-8'))
 
     boundary_list = {}
 
@@ -310,6 +321,7 @@ def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
                 boundary_list[f'{line[3]}'][i].append((lo, la))
 
     return boundary_list
+
 
 def is_pt_in_poly(aLon, aLat, pointList) -> bool:
     """
@@ -351,6 +363,7 @@ def is_pt_in_poly(aLon, aLat, pointList) -> bool:
     else:
         return False
 
+
 def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     """
     :param filename: housing_all.csv
@@ -361,7 +374,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     crime_rate_by_precinct = load_crime_rate_by_precinct(filename='../data/crime.json')
     crime_rate_by_housing = OrderedDict()
 
-    count = 0   # For progress output
+    count = 0  # For progress output
 
     for listing in f:
         if listing[1] == 'id':
@@ -374,7 +387,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
         for precinct in precinct_boundary.keys():
             for region in precinct_boundary[precinct]:
                 if is_pt_in_poly(house_ln, house_la, region):
-                    precinct_name = precinct    # Deal with different precinct name in two sets
+                    precinct_name = precinct  # Deal with different precinct name in two sets
                     if precinct.endswith('1'):
                         precinct_name += 'st'
                     elif precinct.endswith('2'):
@@ -385,7 +398,7 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
                         precinct_name += 'th'
                     break
 
-        crime_rate_by_housing[house_id] = np.nan # Default crime rate for precinct_name == 'None'
+        crime_rate_by_housing[house_id] = np.nan  # Default crime rate for precinct_name == 'None'
         if not precinct_name == 'None':
             if precinct_name == '14th':
                 crime_rate_by_housing[house_id] = crime_rate_by_precinct['Manhattan South Precinct']
@@ -401,9 +414,10 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
 
         count += 1
         if count % 500 == 0:
-            print(count) # Print progress
+            print(count)  # Print progress
 
     return crime_rate_by_housing
+
 
 def write_crime_rate(filename):
     crime_rate_dic = cal_crime_rate_by_housing()
@@ -411,12 +425,12 @@ def write_crime_rate(filename):
     for key in crime_rate_dic.keys():
         val = crime_rate_dic[key]
         retVal.append(val)
-    dic = {"crime_rate":retVal}
+    dic = {"crime_rate": retVal}
     df1 = pd.DataFrame(dic)
     df2 = pd.read_csv("../data/housing_all.csv")
     data = df1["crime_rate"]
     df2["crime_rate"] = data
-    df2 .to_csv("../data/housing_all.csv")
+    df2.to_csv("../data/housing_all.csv")
 
 
 if __name__ == "__main__":
