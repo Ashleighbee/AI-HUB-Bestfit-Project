@@ -10,8 +10,8 @@ import joblib
 import matplotlib.pyplot as plt
 
 
-def visualization(r, _x_test, _y_test, _features):
-    pred = r.predict(_x_test)
+def visualization(reg_model, _x_test, _y_test, _features):
+    pred = reg_model.predict(_x_test)
     errors = abs(_y_test - pred)
     plt.hist(errors)
     plt.show()
