@@ -19,20 +19,30 @@ def setup_nn(n1, n2, n3, dim):
 
 
 df = pd.read_csv('../data/housing_clean.csv')
+
+df['accommodates_s'] = df['accommodates'] ** 2
+df['scenery_s'] = df['scenery'] ** 2
+df['bedroom_s'] = df['bedroom'] ** 2
+df['subway_s'] = df['subway'] ** 2
+df['subway_bus'] = df.subway_station * df.bus_stop
+df['accom_bedroom'] = df.accommodates * df.bedroom
+df['park_scenery'] = df.park * df.scenery
+
 features = [df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom,
             df.bedroom, df.beds, df.guests,  df.Entire_home, df.response_time_num, df.host_response_rate,
-            df.superhost, df.crime_rate,
+            df.superhost, df.crime_rate, df.subway_station,
             df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
             df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
             df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
             df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters, df.One_world_trade_cente,
-            # df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
-            # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
-            # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
-            # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
-            # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
-            # df.SOHO, df.High_Line_Park,
+            df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
+            df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
+            df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
+            df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
+            df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
+            df.SOHO, df.High_Line_Park,
             df.sub_dist_1, df.sub_dist_2, df.sub_dist_3,
+            df.accommodates_s, df.scenery_s, df.bedroom_s, df.subway_s, df.subway_bus, df.accom_bedroom, df.park_scenery,
             df.daily_price]
 
 dataset = pd.concat(features, axis=1)
@@ -45,12 +55,13 @@ X = pd.concat([df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.sce
                df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
                df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
                df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters, df.One_world_trade_cente,
-               # df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
-               # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
-               # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
-               # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
-               # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
-               # df.SOHO, df.High_Line_Park,
+               df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
+               df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
+               df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
+               df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
+               df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
+               df.SOHO, df.High_Line_Park,
+			   df.accommodates_s, df.scenery_s, df.bedroom_s, df.subway_s, df.subway_bus, df.accom_bedroom, df.park_scenery,
                df.sub_dist_1, df.sub_dist_2, df.sub_dist_3], axis=1)
 y = dataset.daily_price
 
@@ -74,9 +85,9 @@ def training(n1, n2, n3):
 def trying():
     best_score = 0
     nodes = []
-    for n1 in range(80, 150, 5):
-        for n2 in range(25, 100, 5):
-            for n3 in range(5, 50, 5):
+    for n3 in range(10, 80, 10):
+        for n2 in range(20, 90, 10):
+            for n1 in range(30, 100, 10):
                 mm = training(n1, n2, n3)
                 if mm > best_score:
                     best_score = mm
@@ -86,3 +97,4 @@ def trying():
 
 if __name__ == '__main__':
     trying()
+    # 90 90 20

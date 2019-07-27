@@ -12,6 +12,54 @@ import joblib
 import matplotlib.pyplot as plt
 
 
+df = pd.read_csv('../data/housing_all.csv')
+# df_b = pd.read_csv('../data/housing_price_balanced.csv')
+
+df['Entire_home_s'] = df['Entire_home'] ** 2
+df['accommodates_s'] = df['accommodates'] ** 2
+df['scenery_s'] = df['scenery'] ** 2
+df['bedroom_s'] = df['bedroom'] ** 2
+# df['subway_s'] = df['subway'] ** 2
+df['accom_bedroom'] = df.accommodates * df.bedroom
+df['park_scenery'] = df.park * df.scenery
+
+features = [df.Entire_home, df.accommodates, df.scenery, df.bedroom, df.beds, df.guests,
+            df.park, df.house_ln, df.superhost,
+
+            df.Entire_home_s, df.accommodates_s, df.scenery_s, df.bedroom_s, df.accom_bedroom, df.park_scenery,
+
+            df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
+            df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
+            df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
+            df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters,
+
+            # df.bathroom, df.response_time_num, df.host_response_rate, df.crime_rate, df.bus_stop, df.house_la,
+
+            # df.One_world_trade_cente, df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
+            # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
+            # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
+            # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
+            # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
+            # df.SOHO, df.High_Line_Park,
+
+            # df.subway, df.sub_dist_1, df.sub_dist_2, df.sub_dist_3
+            # df.subway_s, df.subway_bus, df.subway_station
+            ]
+
+X = pd.concat(features, axis=1).astype(dtype='float64', copy=False)
+y = df.daily_price
+
+# X_b = pd.concat(features_b, axis=1).astype(dtype='float64', copy=False)
+# y_b = df_b.daily_price
+
+X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.3)
+X_train = scale(X_train)
+X_test = scale(X_test)
+
+# X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X_b.values, y_b.values, test_size=0.2)
+# X_train_b = scale(X_train_b)
+# X_test_b = scale(X_test_b)
+
 def linear_all_factors():
     print("\nLinear Regression:\n")
     importance = []
@@ -33,7 +81,6 @@ def visualization(r):
     plt.hist(errors)
     plt.show()
 
-
 def random_forest():
     print("\nRandom Forest:\n")
     reg_Forest.fit(X_train, y_train)
@@ -51,30 +98,6 @@ def random_forest():
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('../data/housing_clean.csv')
-    # df_b = pd.read_csv('../data/housing_price_balanced.csv')
-    features = [df.house_la, df.house_ln, df.subway, df.bus_stop, df.park, df.scenery, df.accommodates, df.bathroom,
-                df.bedroom, df.beds, df.guests, df.Entire_home, df.response_time_num, df.superhost,
-                df.host_response_rate,
-                df.crime_rate,
-                df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
-                df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
-                df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
-                df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters, df.One_world_trade_cente,
-                # df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
-                # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
-                # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
-                # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street, df.Broadway,
-                # df.China_Town, df.West_Point_Academy, df.Columbia_University, df.National_September_11_Memorial_Museum,
-                # df.SOHO, df.High_Line_Park,
-                df.sub_dist_1, df.sub_dist_2, df.sub_dist_3, df.bus_dist_1, df.bus_dist_2, df.bus_dist_3]
-
-    X = pd.concat(features, axis=1).astype(dtype='float64', copy=False)
-    y = df.daily_price
-
-    X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_size=0.3)
-    X_train = scale(X_train)
-    X_test = scale(X_test)
     reg_line = LinearRegression()
     reg_ri = RidgeCV(cv=5)
     reg_tree = DecisionTreeRegressor(max_depth=10)
