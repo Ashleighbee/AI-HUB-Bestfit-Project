@@ -182,7 +182,6 @@ def cal_distance(lng1, lat1, lng2, lat2):
 def counting_sub(_houses):
     fa = load_subway('../data/subway.csv')
     n = 1
-    new_house = []
     for house in _houses:
         count = 0
         route = []
@@ -191,19 +190,17 @@ def counting_sub(_houses):
             if dis == -1:
                 continue
             elif dis < 0.5:
-                for r in each[1]:
-                    route.append(r)
+                # for r in each[1]:
+                #     route.append(r)
 
-        route = list(set(route))
-        count += len(route)
+                # route = list(set(route))
+                count += 1
         # print(route)
         house.append(count)
         writer.writerow(house)
-        new_house.append(house)
-        if n % 100 == 0:
+        if n % 500 == 0:
             print(n, 'houses done!')
         n += 1
-    return new_house
 
 
 def write_stations_distance(housefile, stationfile, load_func, new_labels:tuple):
@@ -438,7 +435,10 @@ def write_crime_rate(filename):
 
 
 if __name__ == "__main__":
-    write_stations_distance(housefile='../data/housing_all.csv',
-                            stationfile='../data/bus.csv',
-                            load_func=load_bus,
-                            new_labels=('bus_dist_1', 'bus_dist_2', 'bus_dist_3'))
+    # write_stations_distance(housefile='../data/housing_all.csv',
+    #                         stationfile='../data/bus.csv',
+    #                         load_func=load_bus,
+    #                         new_labels=('bus_dist_1', 'bus_dist_2', 'bus_dist_3'))
+    houses, title = load_housing('../data/housing_clean.csv')
+    writer.writerow(title)
+    counting_sub(houses)
