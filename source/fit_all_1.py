@@ -12,7 +12,7 @@ import joblib
 import matplotlib.pyplot as plt
 
 
-def visualization(r, _x_test, _y_test):
+def visualization(r, _x_test, _y_test, _features):
     pred = r.predict(_x_test)
     errors = abs(_y_test - pred)
     plt.hist(errors)
@@ -26,7 +26,7 @@ def linear_try_each_factors(_features, _x_train, _x_test, _y_train, _y_test):
         x_try = _x_train[:, i]
         reg_line.fit(x_try.reshape(-1, 1), _y_train)
 
-        importance.append([X.columns.values[i],
+        importance.append([_features[i],
                            reg_line.score(_x_test[:, i].reshape(-1, 1), _y_test)])
     importance.sort(key=lambda x: x[1])
     importance.reverse()
@@ -49,15 +49,16 @@ def try_all_models(_x_train, _x_test, _y_train, _y_test):
         print('Test score: ', reg.score(_x_test, _y_test))
 
 def random_forest(_features, _x_train, _x_test, _y_train, _y_test, store=True, load=False):
+    print("\nRandom Forest:\n")
+
     if load:
         reg_Forest = joblib.load('RF')
     else:
-        reg_Forest = RandomForestRegressor(n_estimators=100, min_samples_split=2, max_depth=10)
+        reg_Forest = RandomForestRegressor(n_estimators=150, min_samples_split=5, max_depth=10)
         reg_Forest.fit(_x_train, _y_train)
         if store:
             joblib.dump(reg_Forest, 'RF')
 
-    print("\nRandom Forest:\n")
     print('Accuracy:\t', reg_Forest.score(_x_test, _y_test))
     print('\nImportance for each:')
     importance = []
@@ -69,15 +70,16 @@ def random_forest(_features, _x_train, _x_test, _y_train, _y_test, store=True, l
         print(each[0] + ':\t', each[1])
 
 def gradient_boosting(_features, _x_train, _x_test, _y_train, _y_test, store=True, load=False):
+    print("\nGradient Boosting:\n")
+
     if load:
-        reg_gradient = joblib.load('GF')
+        reg_gradient = joblib.load('GB')
     else:
-        reg_gradient = GradientBoostingRegressor(n_estimators=100, min_samples_split=2, max_depth=10)
+        reg_gradient = GradientBoostingRegressor(n_estimators=150, min_samples_split=2, max_depth=10)
         reg_gradient.fit(_x_train, _y_train)
         if store:
-            joblib.dump(reg_gradient, 'GD')
+            joblib.dump(reg_gradient, 'GB')
 
-    print("\nGradient Boosting:\n")
     print('Accuracy:\t', reg_gradient.score(_x_test, _y_test))
     print('\nImportance for each:')
     importance = []
@@ -133,6 +135,6 @@ def generate_sets(filename):
 if __name__ == '__main__':
     X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_clean.csv')
 
-    # gradient_boosting(features, X_train, X_test, y_train, y_test)
-    random_forest(features, X_train, X_test, y_train, y_test)
+    gradient_boosting(features, X_train, X_test, y_train, y_test, load=True)
+    random_forest(features, X_train, X_test, y_train, y_test, load=True)
 
