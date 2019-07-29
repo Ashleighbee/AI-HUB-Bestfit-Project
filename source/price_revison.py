@@ -21,8 +21,12 @@ def search(house_id):
 
 
 if __name__ == '__main__':
-    start = int(sys.argv[1])
-    end = int(sys.argv[2])
+    if len(sys.argv) > 1:
+        start = int(sys.argv[1])
+        end = int(sys.argv[2])
+    else:
+        start = 1
+        end = 100
 
     firefox_option = webdriver.FirefoxOptions()
     firefox_option.add_argument(argument='--headless')
@@ -45,7 +49,7 @@ if __name__ == '__main__':
         row = [h_id, house[26], round(float(price) / 6.88)]
         print(i, row)
         csv_writer.writerow(row)
-        if i % 100 == 0 or i == end - 1:
+        if i % 100 == 0:
             price_new.close()
             price_new = open('../data/price/price_new_' + str(i+100) + '.csv', 'w', newline='', encoding='utf-8')
             csv_writer = csv.writer(price_new, dialect='excel')
