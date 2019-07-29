@@ -90,6 +90,12 @@ def gradient_boosting(_features, _x_train, _x_test, _y_train, _y_test, store=Tru
 def generate_sets(filename):
     df = pd.read_csv(filename)
 
+    for i in df.index:
+        if not 5 <= df.loc[i].daily_price / df.loc[i].accommodates <= 109:
+            df = df.drop(index=i)
+
+    df = df.reindex()
+
     df['accommodates_s'] = df['accommodates'] ** 2
     df['scenery_s'] = df['scenery'] ** 2
     df['bedroom_s'] = df['bedroom'] ** 2
@@ -135,7 +141,7 @@ def generate_sets(filename):
 
 
 if __name__ == '__main__':
-    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_new.csv')
+    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all.csv')
 
     linear_try_each_factors(features, X_train, X_test, y_train, y_test)
     # gradient_boosting(features, X_train, X_test, y_train, y_test)
