@@ -35,8 +35,8 @@ def bed_clean(line_list, writer):
 
 
 if __name__ == '__main__':
-    housing_new = open('../data/housing_clean_b.csv', 'w', newline='', encoding='utf-8')
+    housing_new = open('../data/housing_new_clean_.csv', 'a', newline='', encoding='utf-8')
     csv_writer = csv.writer(housing_new, dialect='excel')
-    g = list(csv.reader(open('../data/housing_clean.csv', encoding='utf-8', errors='ignore')))
+    g = list(csv.reader(open('../data/housing_new_clean.csv', encoding='utf-8', errors='ignore')))
 
     bed_clean(g, csv_writer)
