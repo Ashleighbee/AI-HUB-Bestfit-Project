@@ -47,5 +47,5 @@ if __name__ == '__main__':
         csv_writer.writerow(row)
         if i % 100 == 0 or i == end - 1:
             price_new.close()
-            price_new = open('../data/price/price_new_' + str(i) + '.csv', 'w', newline='', encoding='utf-8')
+            price_new = open('../data/price/price_new_' + str(i+100) + '.csv', 'w', newline='', encoding='utf-8')
             csv_writer = csv.writer(price_new, dialect='excel')
