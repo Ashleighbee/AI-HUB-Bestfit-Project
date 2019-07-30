@@ -431,7 +431,7 @@ def write_dict(in_file, out_file, title, func, **func_arg):
     df2 = pd.read_csv(in_file)
     data = df1[title]
     df2[title] = data
-    df2.to_csv(out_file)
+    df2.to_csv(out_file, index=False)
 
 
 def one_hot(filename):
@@ -469,7 +469,7 @@ def write_response_time(filename):
     original_df = pd.read_csv(filename)
     hostrr = host_resp(filename)
     original_df["response_time_num"] = hostrr
-    original_df.to_csv(filename)
+    original_df.to_csv(filename, index=False)
 
 
 def load_boro_boundary(filename='../data/nybb.csv') -> dict:
