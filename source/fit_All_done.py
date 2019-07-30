@@ -90,12 +90,6 @@ def gradient_boosting(_features, _x_train, _x_test, _y_train, _y_test, store=Tru
 def generate_sets(filename):
     df = pd.read_csv(filename)
 
-    for i in df.index:
-        if not 5 <= df.loc[i].daily_price / df.loc[i].accommodates <= 109:
-            df = df.drop(index=i)
-
-    df = df.reindex()
-
     df['accommodates_s'] = df['accommodates'] ** 2
     df['scenery_s'] = df['scenery'] ** 2
     df['bedroom_s'] = df['bedroom'] ** 2
@@ -127,7 +121,7 @@ def generate_sets(filename):
                  # df.Broadway, df.China_Town, df.West_Point_Academy, df.Columbia_University,
                  # df.National_September_11_Memorial_Museum, df.SOHO, df.High_Line_Park,
 
-                 df.subway, df.sub_dist_1, # df.sub_dist_2, df.sub_dist_3
+                 df.subway, # df.sub_dist_1, df.sub_dist_2, df.sub_dist_3
                  # df.subway_s, df.subway_bus, df.subway_station,
                  # df.beds_s, df.beds_for_each, df.bedroom_for_each, df.bedroom_s, df.park_scenery,
                  ]
@@ -143,6 +137,5 @@ def generate_sets(filename):
 if __name__ == '__main__':
     X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all.csv')
 
-    linear_try_each_factors(features, X_train, X_test, y_train, y_test)
     # gradient_boosting(features, X_train, X_test, y_train, y_test)
-    random_forest(features, X_train, X_test, y_train, y_test)
+    gradient_boosting(features, X_train, X_test, y_train, y_test, load=False)
