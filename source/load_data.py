@@ -15,7 +15,7 @@ import numpy as np
 # url = 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot'
 # browser.get(url)
 # wait = WebDriverWait(browser, 10)
-housing = open('../data/housing_new.csv', 'a', newline='', encoding='utf-8')
+housing = open('../data/housing_new__.csv', 'a', newline='', encoding='utf-8')
 writer = csv.writer(housing, dialect='excel')
 
 csv.field_size_limit(int(5e8))
@@ -38,7 +38,6 @@ def load_subway(filename):
     # print(sub_statiton)
     return sub_statiton
 
-
 def load_university(filename):
     f = csv.reader(open(filename))
     f = list(f)
@@ -50,7 +49,6 @@ def load_university(filename):
         university.append([float(pos[0]), float(pos[1]), f[i][1]])
         # print(university)
     return university
-
 
 def load_bus(filename):
     f = csv.reader(open(filename))
@@ -64,7 +62,6 @@ def load_bus(filename):
     # print(bus_stop)
     return bus_stop
 
-
 def load_park(filename):
     f = csv.reader(open(filename))
     f = list(f)
@@ -72,7 +69,6 @@ def load_park(filename):
     for each in f:
         park.append([each[0], each[2], each[1]])
     return park
-
 
 def park_processing(_houses, _title):
     park = load_park('../data/park.csv')
@@ -85,7 +81,6 @@ def park_processing(_houses, _title):
             house.append(dis)
         writer.writerow(house)
 
-
 def load_scenery(filename):
     f = csv.reader(open(filename))
     f = list(f)
@@ -93,7 +88,6 @@ def load_scenery(filename):
     for each in f:
         scenery.append([each[0], each[2], each[1]])
     return scenery
-
 
 def scenery_processing(_houses, _title):
     scenery = load_park('../data/scenery.csv')
@@ -105,7 +99,6 @@ def scenery_processing(_houses, _title):
             dis = cal_distance(each[1], each[2], house[1], house[2])
             house.append(dis)
         writer.writerow(house)
-
 
 def load_list(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
@@ -122,7 +115,6 @@ def load_list(filename):
     print(house)
     return house
 
-
 def load_housing(filename):
     f = csv.reader(open(filename, 'r', encoding='utf-8', errors='ignore'))
     f = list(f)
@@ -134,7 +126,6 @@ def load_housing(filename):
     # print(house)
     return house, title
 
-
 def cal_distance(lng1, lat1, lng2, lat2):
     # lng1,lat1,lng2,lat2 = (120.12802999999997,30.28708,115.86572000000001,28.7427)
     lng1, lat1, lng2, lat2 = map(radians, [float(lng1), float(lat1), float(lng2), float(lat2)])  # 经纬度转换成弧度
@@ -144,7 +135,6 @@ def cal_distance(lng1, lat1, lng2, lat2):
     distance = 2 * asin(sqrt(a)) * 6371 * 1000  # 地球平均半径，6371km
     distance = round(distance / 1000, 3)
     return distance
-
 
 # def cal_dis_on_map(ln1, la1, ln2, la2):
 #     try:
@@ -178,7 +168,6 @@ def cal_distance(lng1, lat1, lng2, lat2):
 #         #     (By.CSS_SELECTOR, '.search_results_error'))).text
 #         return -1
 
-
 def counting_sub(_houses):
     fa = load_subway('../data/subway.csv')
     n = 1
@@ -201,7 +190,6 @@ def counting_sub(_houses):
         if n % 500 == 0:
             print(n, 'houses done!')
         n += 1
-
 
 def write_stations_distance(housefile, stationfile, load_func, new_labels:tuple):
     station_list = load_func(stationfile)
@@ -234,7 +222,6 @@ def write_stations_distance(housefile, stationfile, load_func, new_labels:tuple)
         line.extend(dist_list[:len(new_labels)])
         house_writer.writerow(line)
 
-
 def counting_(_houses, fa):
     n = 1
     for house in _houses:
@@ -250,7 +237,6 @@ def counting_(_houses, fa):
         if n % 500 == 0:
             print(n, 'houses done!')
         n += 1
-
 
 def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
     """
@@ -289,7 +275,6 @@ def load_crime_rate_by_precinct(filename='../data/crime.json') -> dict:
 
     return per1000_list
 
-
 def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
     """
     :param filename:
@@ -322,7 +307,6 @@ def load_police_precinct_boundary(filename='../data/police.csv') -> dict:
                 boundary_list[f'{line[3]}'][i].append((lo, la))
 
     return boundary_list
-
 
 def is_pt_in_poly(aLon, aLat, pointList) -> bool:
     """
@@ -363,7 +347,6 @@ def is_pt_in_poly(aLon, aLat, pointList) -> bool:
         return True
     else:
         return False
-
 
 def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     """
@@ -419,7 +402,6 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
 
     return crime_rate_by_housing
 
-
 def write_dict(in_file, out_file, title, func, **func_arg):
     val_dic = func(**func_arg)
     ret_val = []
@@ -433,7 +415,6 @@ def write_dict(in_file, out_file, title, func, **func_arg):
     df2[title] = data
     df2.to_csv(out_file)
 
-
 def one_hot(filename):
     df = pd.read_csv(filename)
     # filename = "../data/housing_all.csv"
@@ -444,7 +425,6 @@ def one_hot(filename):
     # b/c using get_dummies we have to put in dataFrame
     onehot = pd.get_dummies(suph)
     print(onehot)
-
 
 def host_resp(filename):
     df = pd.read_csv(filename)
@@ -464,13 +444,11 @@ def host_resp(filename):
     host_rt = pd.DataFrame(lis)
     return host_rt
 
-
 def write_response_time(filename):
     original_df = pd.read_csv(filename)
     hostrr = host_resp(filename)
     original_df["response_time_num"] = hostrr
     original_df.to_csv(filename)
-
 
 def load_boro_boundary(filename='../data/nybb.csv') -> dict:
     """
@@ -501,7 +479,6 @@ def load_boro_boundary(filename='../data/nybb.csv') -> dict:
 
     return boundary_list
 
-
 def find_boro_by_housing(filename='../data/housing_all.csv') -> dict:
     """
     :param filename: housing_all.csv
@@ -531,10 +508,28 @@ def find_boro_by_housing(filename='../data/housing_all.csv') -> dict:
 
     return boro_by_housing
 
+def load_borough():
+    f = list(csv.reader(open('../data/housing_all.csv', encoding='utf-8', errors='ignore')))
+    title = f[0] + ['Brooklyn', 'Manhattan', 'Queens', 'Staten', 'Bronx']
+    writer.writerow(title)
+    for each in f[1:]:
+        if each[75] == 'Brooklyn':
+            each += [1, 0, 0, 0, 0]
+        elif each[75] == 'Manhattan':
+            each += [0, 1, 0, 0, 0]
+        elif each[75] == 'Queens':
+            each += [0, 0, 1, 0, 0]
+        elif each[75] == 'Staten':
+            each += [0, 0, 0, 1, 0]
+        elif each[75] == 'Bronx':
+            each += [0, 0, 0, 0, 1]
+        writer.writerow(each)
+
 
 if __name__ == "__main__":
     # write_stations_distance(housefile='../data/housing_all.csv',
     #                         stationfile='../data/bus.csv',
     #                         load_func=load_bus,
     #                         new_labels=('bus_dist_1', 'bus_dist_2', 'bus_dist_3'))
-    write_dict('../data/housing_all.csv', '../data/housing_all', 'borough', find_boro_by_housing)
+    # write_dict('../data/housing_all.csv', '../data/housing_all', 'borough', find_boro_by_housing)
+    load_borough()
