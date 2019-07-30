@@ -90,26 +90,35 @@ def gradient_boosting(_features, _x_train, _x_test, _y_train, _y_test, store=Tru
 def generate_sets(filename):
     df = pd.read_csv(filename)
 
+    for i in df.index:
+        if not 5 <= df.loc[i].daily_price / df.loc[i].accommodates <= 109:
+            df = df.drop(index=i)
+
+    df = df.reindex()
+
     df['accommodates_s'] = df['accommodates'] ** 2
     df['scenery_s'] = df['scenery'] ** 2
     df['bedroom_s'] = df['bedroom'] ** 2
     df['beds_s'] = df['beds'] ** 2
-    df['subway_s'] = df['subway'] ** 2
+    # df['subway_s'] = df['subway'] ** 2
     df['accom_bedroom'] = df.accommodates * df.bedroom
     df['bedroom_for_each'] = df.accommodates / df.bedroom
     df['beds_for_each'] = df.accommodates / df.beds
 
     df['park_scenery'] = df.park * df.scenery
 
-    _features = [df.Entire_home, df.accommodates, df.scenery, df.house_ln,
+    _features = [df.Entire_home, df.accommodates, df.scenery, df.house_ln, df.house_la, df.sub_dist_1,
+
+                 df.accommodates_s, df.scenery_s, df.accom_bedroom,
+
                  df.Madison_Square_Garden,
-                 df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
+                 # df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
                  # df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
                  # df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
                  # df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters,
 
-                 df.bathroom, df.response_time_num, df.host_response_rate, df.crime_rate,
-                 df.guests, df.park, df.bedroom, df.beds, df.house_la, df.subway, df.sub_dist_1,
+                 df.bathroom, df.response_time_num, df.host_response_rate, df.bus_stop,  # df.crime_rate,
+                 df.guests, df.park, df.bedroom, df.beds,
 
                  # df.One_world_trade_cente, df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
                  # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
@@ -118,8 +127,8 @@ def generate_sets(filename):
                  # df.Broadway, df.China_Town, df.West_Point_Academy, df.Columbia_University,
                  # df.National_September_11_Memorial_Museum, df.SOHO, df.High_Line_Park,
 
-                 # df.sub_dist_2, df.sub_dist_3, df.bus_stop,
-                 # df.subway_s, df.accommodates_s, df.scenery_s, df.accom_bedroom,
+                 df.subway, df.sub_dist_1, # df.sub_dist_2, df.sub_dist_3
+                 # df.subway_s, df.subway_bus, df.subway_station,
                  # df.beds_s, df.beds_for_each, df.bedroom_for_each, df.bedroom_s, df.park_scenery,
                  ]
 
@@ -132,7 +141,7 @@ def generate_sets(filename):
 
 
 if __name__ == '__main__':
-    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_new.csv')
+    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all.csv')
 
     linear_try_each_factors(features, X_train, X_test, y_train, y_test)
     # gradient_boosting(features, X_train, X_test, y_train, y_test)
