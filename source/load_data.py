@@ -420,18 +420,18 @@ def cal_crime_rate_by_housing(filename='../data/housing_all.csv') -> dict:
     return crime_rate_by_housing
 
 
-def write_crime_rate(filename):
-    crime_rate_dic = cal_crime_rate_by_housing()
-    retVal = []
-    for key in crime_rate_dic.keys():
-        val = crime_rate_dic[key]
-        retVal.append(val)
-    dic = {"crime_rate": retVal}
+def write_dict(in_file, out_file, title, func, **func_arg):
+    val_dic = func(**func_arg)
+    ret_val = []
+    for key in val_dic.keys():
+        val = val_dic[key]
+        ret_val.append(val)
+    dic = {title: ret_val}
     df1 = pd.DataFrame(dic)
-    df2 = pd.read_csv("../data/housing_all.csv")
-    data = df1["crime_rate"]
-    df2["crime_rate"] = data
-    df2.to_csv("../data/housing_all.csv")
+    df2 = pd.read_csv(in_file)
+    data = df1[title]
+    df2[title] = data
+    df2.to_csv(out_file)
 
 
 def one_hot(filename):
@@ -472,11 +472,69 @@ def write_response_time(filename):
     original_df.to_csv(filename)
 
 
+def load_boro_boundary(filename='../data/nybb.csv') -> dict:
+    """
+    :param filename:
+    :return: A dictionary. Keys are precinct name (only numbers), values are boudary lists.
+             Some precincts have multiple regions.
+             return format:
+             {
+                "1": [[(-70.1, 40.2), (-70.0, 40.1)], [(-70.1, 40.2), (-70.0, 40.1)], ...]
+                # [[Cords of region 1], [Cords,of regions2], ...]
+                ......
+             }
+    """
+    f = csv.reader(open(filename, 'r', encoding='utf-8'))
+
+    boundary_list = {}
+
+    for line in f:
+        boro_name = line[0]
+        cords = line[1:]
+        boundary_list[boro_name] = []
+
+        for i in range(len(cords)):
+            if cords[i] == '':
+                continue
+            cords[i] = cords[i].split(' ')
+            boundary_list[boro_name].append((float(cords[i][1]), float(cords[i][0])))
+
+    return boundary_list
+
+
+def find_boro_by_housing(filename='../data/housing_all.csv') -> dict:
+    """
+    :param filename: housing_all.csv
+    :return: A dict. Keys are ids of houses. Values are crime rates.
+    """
+    f = csv.reader(open(filename, 'r', encoding='utf-8'))
+    boro_boundary = load_boro_boundary(filename='../data/nybb.csv')
+    boro_by_housing = OrderedDict()
+
+    count = 0  # For progress output
+
+    for listing in f:
+        if listing[0] == 'id':
+            continue
+        house_id = listing[0]
+        house_ln = float(listing[1])
+        house_la = float(listing[2])
+
+        boro_by_housing[house_id] = np.nan  # Default crime rate for precinct_name == 'None'
+        for boro in boro_boundary.keys():
+            if is_pt_in_poly(house_ln, house_la, boro_boundary[boro]):
+                boro_by_housing[house_id] = boro
+
+        count += 1
+        if count % 500 == 0:
+            print(count)  # Print progress
+
+    return boro_by_housing
+
+
 if __name__ == "__main__":
     # write_stations_distance(housefile='../data/housing_all.csv',
     #                         stationfile='../data/bus.csv',
     #                         load_func=load_bus,
     #                         new_labels=('bus_dist_1', 'bus_dist_2', 'bus_dist_3'))
-    houses, title = load_housing('../data/housing_clean.csv')
-    writer.writerow(title)
-    counting_sub(houses)
+    write_dict('../data/housing_all.csv', '../data/housing_all', 'borough', find_boro_by_housing)
