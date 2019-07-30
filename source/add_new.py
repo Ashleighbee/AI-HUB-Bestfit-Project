@@ -7,10 +7,7 @@ f = list(csv.reader(open('../data/listing_new.csv', encoding='utf-8', errors='ig
 g = list(csv.reader(open('../data/housing_all.csv', encoding='utf-8', errors='ignore')))
 housing_new = open('../data/housing_clean.csv', 'a', newline='', encoding='utf-8')
 writer = csv.writer(housing_new, dialect='excel')
-title = ['id', 'house_ln', 'house_la', 'subway', 'bus_stop', 'park', 'scenery', 'street', 'room_type', 'accommodates',
-         'bathroom', 'bedroom', 'beds', 'bed_type', 'guests', 'num_of_review	', 'review_score',
-         'Entire_home', '	Private_room', 'Shared_room', '	crime_rate',
-         'daily_price', 'weekly_price', 'monthly_price']
+title = g[0]
 writer.writerow(title)
 
 
