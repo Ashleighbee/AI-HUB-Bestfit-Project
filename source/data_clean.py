@@ -37,6 +37,7 @@ def bed_clean(line_list, writer):
             print(i, 'houses done!')
     return count
 
+
 def price_for_each_clean(line_list, writer):
     low = 0
     high = 0
@@ -82,19 +83,6 @@ def bedroom_clean(line_list, writer):
         if i % 500 == 0:
             print(i, 'houses done!')
     return count
-
-
-def price_per_person_clean(line_list, writer):
-    for i in range(len(line_list)):
-        accom = line_list[i][9]
-        price = line_list[i][26]
-        if 'daily_price' in price:
-            writer.writerow(line_list[i])
-            continue
-        if 5 <= float(price) / float(accom) <= 109:
-            writer.writerow(line_list[i])
-        else:
-            continue
 
 
 if __name__ == '__main__':
