@@ -4,6 +4,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import BaggingRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
+from xgboost.sklearn import XGBRegressor
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.preprocessing import scale
 import joblib
@@ -111,6 +112,29 @@ def gradient_boosting(_features, _x_train, _x_test, _y_train, _y_test, store=Tru
 
     return reg_gradient
 
+def xg_boost(_features, _x_train, _x_test, _y_train, _y_test, store=True, load=False):
+    print("\nXG Boosting:\n")
+
+    if load:
+        reg_xgb = joblib.load('XGB')
+    else:
+        reg_xgb = XGBRegressor(n_estimators=200, min_child_weight=7, max_depth=5, n_jobs=-1, silent=True)
+        reg_xgb.fit(_x_train, _y_train)
+        if store:
+            joblib.dump(reg_xgb, 'GB')
+
+    print('Training Accuracy:\t', reg_xgb.score(_x_train, _y_train))
+    print('Testing Accuracy:\t', reg_xgb.score(_x_test, _y_test))
+    print('\nImportance for each:')
+    importance = []
+    for i in range(0, len(_features)):
+        importance.append([_features[i], reg_xgb.feature_importances_[i]])
+    importance.sort(key=lambda x: x[1], reverse=True)
+    for each in importance:
+        print(each[0] + ':\t', each[1])
+
+    return reg_xgb
+
 def cv_for_hp(reg):
     param_distributions = {
         'n_estimators': [50, 80, 100, 150, 180, 200],
@@ -137,6 +161,8 @@ def generate_sets(filename):
     df['park_scenery'] = df.park * df.scenery
 
     _features = [df.house_ln, df.house_la, df.Entire_home, df.accommodates, df.scenery,
+                 # df.Brooklyn, df.Manhattan, df.Queens, df.Staten, df.Bronx,
+
                  df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
                  df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
                  df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
@@ -168,10 +194,10 @@ def generate_sets(filename):
 
 
 if __name__ == '__main__':
-    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean_.csv')
+    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean.csv')
 
     # linear_try_each_factors(features, X_train, X_test, y_train, y_test)
     reg1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
     reg2 = random_forest(features, X_train, X_test, y_train, y_test)
-
+    reg3 = xg_boost(features, X_train, X_test, y_train, y_test)
     # visualization(reg1, X_test, y_test)
