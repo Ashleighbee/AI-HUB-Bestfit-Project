@@ -23,8 +23,8 @@ def visualization(reg_model, _x_test, _y_test, write=False):
     plt.show()
 
     if write:
-        housing = list(csv.reader(open('../data/housing_all_clean.csv', encoding='utf-8', errors='ignore')))
-        list_bad = open('../data/bad_list.csv', 'a', newline='', encoding='utf-8')
+        housing = list(csv.reader(open('../data/housing_all_new.csv', encoding='utf-8', errors='ignore')))
+        list_bad = open('../data/error_list.csv', 'a', newline='', encoding='utf-8')
         writer = csv.writer(list_bad, dialect='excel')
         title = housing[0]
         title += ['Price_avg', 'True_price', 'Predict_price', 'errors']
@@ -32,7 +32,7 @@ def visualization(reg_model, _x_test, _y_test, write=False):
         print('Total data: ', len(errors))
         count = 0
         for i in range(len(errors)):
-            if errors[i] > 50 or errors[i] < -50:
+            if errors[i] > 100 or errors[i] < -100:
                 ln = _x_test[i][0]
                 la = _x_test[i][1]
                 count += 1
@@ -188,8 +188,8 @@ def generate_sets(filename):
     df['ava_bedroom'] = df.availability * df.bedroom
     # df['accom_ave_price'] = df.accommodates * df.ave_price
 
-    _features = [df.house_ln, df.house_la, df.Entire_home, df.Shared_room, df.Private_room,
-                 df.accommodates, df.scenery, df.bathroom, df.availability,
+    _features = [df.house_ln, df.house_la, df.Entire_home, df.accommodates, df.Shared_room, df.Private_room,
+                 df.scenery, df.bathroom, df.availability,
                  # df.Brooklyn, df.Manhattan,
                  # df.Queens, df.Staten, df.Bronx, df.ave_price,
 
