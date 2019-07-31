@@ -201,8 +201,8 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean.csv')
 
     # linear_try_each_factors(features, X_train, X_test, y_train, y_test)
-    # reg1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
+    reg1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
     # reg2 = random_forest(features, X_train, X_test, y_train, y_test)
-    reg3 = xg_boost(features, X_train, X_test, y_train, y_test)
+    # reg3 = xg_boost(features, X_train, X_test, y_train, y_test)
 
-    visualization(reg3, X_test, y_test)
+    visualization(reg1, X_test, y_test)
