@@ -92,9 +92,9 @@ def bedroom_clean(line_list, writer):
 
 
 if __name__ == '__main__':
-    housing_new = open('../data/housing_all_new_clean.csv', 'a', newline='', encoding='utf-8')
+    housing_new = open('../data/housing_all_clean_.csv', 'a', newline='', encoding='utf-8')
     csv_writer = csv.writer(housing_new, dialect='excel')
-    new_list = list(csv.reader(open('../data/housing_all_new_clean_.csv', encoding='utf-8', errors='ignore')))
+    new_list = list(csv.reader(open('../data/housing_all.csv', encoding='utf-8', errors='ignore')))
 
     delete1, new_list = bed_clean(new_list, csv_writer)
     delete2, new_list = bedroom_clean(new_list, csv_writer)
