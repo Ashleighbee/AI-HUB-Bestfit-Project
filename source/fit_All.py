@@ -4,6 +4,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import BaggingRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import AdaBoostRegressor
 from xgboost.sklearn import XGBRegressor
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.preprocessing import scale
@@ -159,19 +160,23 @@ def generate_sets(filename):
     df['bedroom_for_each'] = df.accommodates / df.bedroom
     df['beds_for_each'] = df.accommodates / df.beds
     df['park_scenery'] = df.park * df.scenery
+    # df['accom_ave_price'] = df.accommodates * df.ave_price
 
     _features = [df.house_ln, df.house_la, df.Entire_home, df.accommodates, df.scenery,
-                 # df.Brooklyn, df.Manhattan, df.Queens, df.Staten, df.Bronx,
+                 # df.Brooklyn, df.Manhattan, df.Queens, df.Staten, df.Bronx, df.ave_price,
 
                  df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
-                 df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
-                 df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
-                 df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters,
+                 df.Washington_Square_Park, df.Grand_Centreal_Terminal,
+                 # df.intrepid_sea_air, df.New_york_Public_Library, df.Times_Square,
+                 # df.New_York_University, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
+                 # df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters,
 
-                 df.bathroom, df.response_time_num, df.host_response_rate, df.crime_rate, df.num_of_review,
-                 df.guests, df.park, df.bedroom, df.beds, df.subway,
+                 df.bathroom, df.host_response_rate, df.num_of_review,
                  df.sub_dist_1, df.sub_dist_2, df.sub_dist_3, df.bus_stop,
-                 df.accom_bedroom,
+
+                 df.beds_for_each, df.bedroom_for_each, df.park_scenery, df.accom_bedroom,
+                 # df.accom_ave_price,
+                 # df.guests, df.park, df.bedroom, df.beds, df.response_time_num, df.subway, df.crime_rate,
 
                  # df.One_world_trade_cente, df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
                  # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
@@ -180,15 +185,14 @@ def generate_sets(filename):
                  # df.Broadway, df.China_Town, df.West_Point_Academy, df.Columbia_University,
                  # df.National_September_11_Memorial_Museum, df.SOHO, df.High_Line_Park,
 
-                 df.subway_s, df.accommodates_s, df.scenery_s,
-                 df.beds_s, df.beds_for_each, df.bedroom_for_each, df.bedroom_s, df.park_scenery,
+                 # df.subway_s, df.accommodates_s, df.scenery_s, df.beds_s, df.bedroom_s,
                  ]
 
     _x = pd.concat(_features, axis=1).astype(dtype='float64', copy=False)
     features_name = _x.columns.values
     _y = df.daily_price
 
-    _x_train, _x_test, _y_train, _y_test = train_test_split(_x.values, _y.values, test_size=0.3)
+    _x_train, _x_test, _y_train, _y_test = train_test_split(_x.values, _y.values, test_size=0.2)
     # return scale(_x_train), scale(_x_test), _y_train, _y_test, features_name
     return _x_train, _x_test, _y_train, _y_test, features_name
 
@@ -197,7 +201,8 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean.csv')
 
     # linear_try_each_factors(features, X_train, X_test, y_train, y_test)
-    reg1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
-    reg2 = random_forest(features, X_train, X_test, y_train, y_test)
+    # reg1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
+    # reg2 = random_forest(features, X_train, X_test, y_train, y_test)
     reg3 = xg_boost(features, X_train, X_test, y_train, y_test)
-    # visualization(reg1, X_test, y_test)
+
+    visualization(reg3, X_test, y_test)

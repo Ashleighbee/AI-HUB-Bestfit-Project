@@ -18,6 +18,7 @@ def price_clean(line_list, writer):
 
 def bed_clean(line_list, writer):
     count = 0
+    new_list = []
     for i in range(0, len(line_list)):
         beds = line_list[i][12]
         accommodates = line_list[i][9]
@@ -32,15 +33,17 @@ def bed_clean(line_list, writer):
             count += 1
             continue
         else:
-            writer.writerow(line_list[i])
+            new_list.append(line_list[i])
+            # writer.writerow(line_list[i])
         if i % 500 == 0:
             print(i, 'houses done!')
-    return count
+    return count, new_list
 
 
 def price_for_each_clean(line_list, writer):
     low = 0
     high = 0
+    new_list = []
     for i in range(0, len(line_list)):
         accommodates = line_list[i][9]
         price = line_list[i][26]
@@ -58,14 +61,16 @@ def price_for_each_clean(line_list, writer):
             high += 1
             continue
         else:
-            writer.writerow(line_list[i])
+            new_list.append(line_list[i])
+            # writer.writerow(line_list[i])
         if i % 500 == 0:
             print(i, 'houses done!')
     print(low, high)
-    return low + high
+    return low + high, new_list
 
 def bedroom_clean(line_list, writer):
     count = 0
+    new_list = []
     for i in range(0, len(line_list)):
         accommodates = line_list[i][9]
         bedroom = line_list[i][11]
@@ -79,19 +84,24 @@ def bedroom_clean(line_list, writer):
             count += 1
             continue
         else:
-            writer.writerow(line_list[i])
+            new_list.append(line_list[i])
+            # writer.writerow(line_list[i])
         if i % 500 == 0:
             print(i, 'houses done!')
-    return count
+    return count, new_list
 
 
 if __name__ == '__main__':
-    housing_new = open('../data/housing_all_clean.csv', 'a', newline='', encoding='utf-8')
+    housing_new = open('../data/housing_all_new_clean.csv', 'a', newline='', encoding='utf-8')
     csv_writer = csv.writer(housing_new, dialect='excel')
-    g = list(csv.reader(open('../data/housing_all_clean_.csv', encoding='utf-8', errors='ignore')))
+    new_list = list(csv.reader(open('../data/housing_all_new_clean_.csv', encoding='utf-8', errors='ignore')))
 
-    # delete = bed_clean(g, csv_writer)
-    # delete = bedroom_clean(g, csv_writer)
-    delete = price_for_each_clean(g, csv_writer)
+    delete1, new_list = bed_clean(new_list, csv_writer)
+    delete2, new_list = bedroom_clean(new_list, csv_writer)
+    delete3, new_list = price_for_each_clean(new_list, csv_writer)
+    for line in new_list:
+        csv_writer.writerow(line)
 
-    print('Delete num:', delete)
+    print('Bed clean delete num:', delete1)
+    print('Bedroom clean delete num:', delete2)
+    print('Price clean delete num:', delete3)
