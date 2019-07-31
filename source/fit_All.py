@@ -15,7 +15,7 @@ import csv
 
 def visualization(reg_model, _x_test, _y_test):
     pred = reg_model.predict(_x_test)
-    errors = abs(pred - _y_test)
+    errors = (pred - _y_test)
     housing = list(csv.reader(open('../data/housing_all_clean.csv', encoding='utf-8', errors='ignore')))
     list_bad = open('../data/bad_list.csv', 'a', newline='', encoding='utf-8')
     writer = csv.writer(list_bad, dialect='excel')
