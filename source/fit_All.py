@@ -32,7 +32,7 @@ def visualization(reg_model, _x_test, _y_test, write=False):
         print('Total data: ', len(errors))
         count = 0
         for i in range(len(errors)):
-            if errors[i] > 100:
+            if errors[i] > 50 or errors[i] < -50:
                 ln = _x_test[i][0]
                 la = _x_test[i][1]
                 count += 1
