@@ -138,11 +138,35 @@ def xg_boost(_features, _x_train, _x_test, _y_train, _y_test, store=True, load=F
 
     return reg_xgb
 
-def cv_for_hp(reg):
-    param_distributions = {
-        'n_estimators': [50, 80, 100, 150, 180, 200],
-        'max_depth': [5, 8, 10, 12, 14, 16, 18],
-        'min_samples_split': [2, 5, 7],
+def ada_boost(_features, _x_train, _x_test, _y_train, _y_test, store=True, load=False):
+    print("\nAdaptive Boosting:\n")
+
+    if load:
+        reg_ada = joblib.load('ADB')
+    else:
+        reg_ada = AdaBoostRegressor(n_estimators=100, learning_rate=0.04)
+        reg_ada.fit(_x_train, _y_train)
+        if store:
+            joblib.dump(reg_ada, 'ADA')
+
+    print('Training Accuracy:\t', reg_ada.score(_x_train, _y_train))
+    print('Testing Accuracy:\t', reg_ada.score(_x_test, _y_test))
+    print('\nImportance for each:')
+    importance = []
+    for i in range(0, len(_features)):
+        importance.append([_features[i], reg_ada.feature_importances_[i]])
+    importance.sort(key=lambda x: x[1], reverse=True)
+    for each in importance:
+        print(each[0] + ':\t', each[1])
+
+    return reg_ada
+
+def cv_for_hp(reg, store=True):
+    params = {
+        'n_estimators': [200],
+        'max_depth': [10],
+        'min_samples_split': [5],
+        'learning_rate': [0.01, 0.03, 0.05, 0.07, 0.1, 0.2]
         # 'oob_score': [True],
     }
     searcher = GridSearchCV(estimator=reg, param_grid=params, n_jobs=2, cv=5, verbose=3)
