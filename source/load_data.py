@@ -453,8 +453,7 @@ def write_response_time(filename):
 def load_boro_boundary(filename='../data/nybb.csv') -> dict:
     """
     :param filename:
-    :return: A dictionary. Keys are precinct name (only numbers), values are boudary lists.
-             Some precincts have multiple regions.
+    :return: A dictionary. Keys are borough name, values are boudary lists.
              return format:
              {
                 "1": [[(-70.1, 40.2), (-70.0, 40.1)], [(-70.1, 40.2), (-70.0, 40.1)], ...]
@@ -482,7 +481,7 @@ def load_boro_boundary(filename='../data/nybb.csv') -> dict:
 def find_boro_by_housing(filename='../data/housing_all.csv') -> dict:
     """
     :param filename: housing_all.csv
-    :return: A dict. Keys are ids of houses. Values are crime rates.
+    :return: A dict. Keys are ids of houses. Values are its borough
     """
     f = csv.reader(open(filename, 'r', encoding='utf-8'))
     boro_boundary = load_boro_boundary(filename='../data/nybb.csv')
@@ -507,6 +506,7 @@ def find_boro_by_housing(filename='../data/housing_all.csv') -> dict:
             print(count)  # Print progress
 
     return boro_by_housing
+
 
 def load_borough():
     f = list(csv.reader(open('../data/housing_all.csv', encoding='utf-8', errors='ignore')))
