@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import BaggingRegressor
@@ -13,32 +14,36 @@ import matplotlib.pyplot as plt
 import csv
 
 
-def visualization(reg_model, _x_test, _y_test):
+def visualization(reg_model, _x_test, _y_test, write=False):
     pred = reg_model.predict(_x_test)
-    errors = (pred - _y_test)
-    housing = list(csv.reader(open('../data/housing_all_clean.csv', encoding='utf-8', errors='ignore')))
-    list_bad = open('../data/bad_list.csv', 'a', newline='', encoding='utf-8')
-    writer = csv.writer(list_bad, dialect='excel')
-    title = housing[0]
-    title += ['Price_avg', 'True_price', 'Predict_price', 'errors']
-    writer.writerow(housing[0])
-    print('Total data: ', len(errors))
-    count = 0
-    for i in range(len(errors)):
-        if errors[i] > 100:
-            ln = _x_test[i][0]
-            la = _x_test[i][1]
-            count += 1
-            for each in housing[1:]:
-                if ln == float(each[1]) and la == float(each[2]):
-                    row = each
-                    row += [_y_test[i] / _x_test[i][3], _y_test[i], pred[i], errors[i]]
-                    writer.writerow(row)
-        if i % 100 == 0:
-            print(i, 'errors done!')
-    print('Total errors: ', count)
+    rmse = np.sqrt(np.mean(np.square(pred - _y_test)))
+    print(rmse)
+    errors = list(pred - _y_test)
     plt.hist(errors, bins=30)
     plt.show()
+
+    if write:
+        housing = list(csv.reader(open('../data/housing_all_clean.csv', encoding='utf-8', errors='ignore')))
+        list_bad = open('../data/bad_list.csv', 'a', newline='', encoding='utf-8')
+        writer = csv.writer(list_bad, dialect='excel')
+        title = housing[0]
+        title += ['Price_avg', 'True_price', 'Predict_price', 'errors']
+        writer.writerow(housing[0])
+        print('Total data: ', len(errors))
+        count = 0
+        for i in range(len(errors)):
+            if errors[i] > 100:
+                ln = _x_test[i][0]
+                la = _x_test[i][1]
+                count += 1
+                for each in housing[1:]:
+                    if ln == float(each[1]) and la == float(each[2]):
+                        row = each
+                        row += [_y_test[i] / _x_test[i][3], _y_test[i], pred[i], errors[i]]
+                        writer.writerow(row)
+            if i % 100 == 0:
+                print(i, 'errors done!')
+        print('Total errors: ', count)
 
 def linear_try_each_factors(_features, _x_train, _x_test, _y_train, _y_test):
     reg_line = LinearRegression()
@@ -179,10 +184,12 @@ def generate_sets(filename):
     df['bedroom_for_each'] = df.accommodates / df.bedroom
     df['beds_for_each'] = df.accommodates / df.beds
     df['park_scenery'] = df.park * df.scenery
+    df['ava_acc'] = df.availability * df.accommodates
+    df['ava_bedroom'] = df.availability * df.bedroom
     # df['accom_ave_price'] = df.accommodates * df.ave_price
 
     _features = [df.house_ln, df.house_la, df.Entire_home, df.Shared_room, df.Private_room,
-                 df.accommodates, df.scenery, df.bathroom,
+                 df.accommodates, df.scenery, df.bathroom, df.availability,
                  # df.Brooklyn, df.Manhattan,
                  # df.Queens, df.Staten, df.Bronx, df.ave_price,
 
@@ -195,7 +202,7 @@ def generate_sets(filename):
                  df.host_response_rate, df.num_of_review,
                  df.sub_dist_1, df.sub_dist_2, df.sub_dist_3, df.bus_stop,
 
-                 df.beds_for_each, df.bedroom_for_each, df.park_scenery, df.accom_bedroom,
+                 df.beds_for_each, df.bedroom_for_each, df.park_scenery, df.accom_bedroom, df.ava_acc, df.ava_bedroom
                  # df.accom_ave_price, df.accommodates_s,
                  # df.subway, df.guests, df.park, df.bedroom, df.beds, df.response_time_num, df.crime_rate,
 
@@ -219,14 +226,13 @@ def generate_sets(filename):
 
 
 if __name__ == '__main__':
-    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean.csv')
+    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_new.csv')
 
     # linear_try_each_factors(features, X_train, X_test, y_train, y_test)
-    # reg1, score1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
+    # reg3, score1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
     # reg2, score2 = random_forest(features, X_train, X_test, y_train, y_test)
     reg3, score3 = xg_boost(features, X_train, X_test, y_train, y_test)
-    visualization(reg3, X_test, y_test)
+    visualization(reg3, X_test, y_test, write=True)
     # cv_for_hp(reg1, X_train, y_train)
 
-    # testing_r2('../data/housing_all_clean.csv')
-
+    # testing_r2('../data/housing_all_new.csv')

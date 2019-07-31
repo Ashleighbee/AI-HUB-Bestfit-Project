@@ -4,9 +4,9 @@ import numpy as np
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('../data/housing_temp.csv')
+    df = pd.read_csv('../data/housing_all_clean.csv')
     price = df.daily_price / df.accommodates
-    feature_name = 'sub_dist_1'
+    feature_name = 'SOHO'
     feature = (df[feature_name])
 
     plt.xlabel(feature_name)
