@@ -6,11 +6,12 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import AdaBoostRegressor
 from xgboost.sklearn import XGBRegressor
-from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSearchCV
 from sklearn.preprocessing import scale
 import joblib
 import matplotlib.pyplot as plt
 import csv
+import numpy as np
 
 
 def visualization(reg_model, _x_test, _y_test):
@@ -97,7 +98,7 @@ def gradient_boosting(_features, _x_train, _x_test, _y_train, _y_test, store=Tru
     if load:
         reg_gradient = joblib.load('GB')
     else:
-        reg_gradient = GradientBoostingRegressor(n_estimators=200, min_samples_split=7, max_depth=6)
+        reg_gradient = GradientBoostingRegressor(n_estimators=200, min_samples_split=7, max_depth=8, learning_rate=0.03)
         reg_gradient.fit(_x_train, _y_train)
         if store:
             joblib.dump(reg_gradient, 'GB')
@@ -119,10 +120,11 @@ def xg_boost(_features, _x_train, _x_test, _y_train, _y_test, store=True, load=F
     if load:
         reg_xgb = joblib.load('XGB')
     else:
-        reg_xgb = XGBRegressor(n_estimators=200, min_child_weight=7, max_depth=5, n_jobs=-1, silent=True)
+        reg_xgb = XGBRegressor(n_estimators=250, min_child_weight=5, max_depth=4, n_jobs=2, verbosity=1,
+                               learning_rate=0.1)
         reg_xgb.fit(_x_train, _y_train)
         if store:
-            joblib.dump(reg_xgb, 'GB')
+            joblib.dump(reg_xgb, 'XGB')
 
     print('Training Accuracy:\t', reg_xgb.score(_x_train, _y_train))
     print('Testing Accuracy:\t', reg_xgb.score(_x_test, _y_test))
@@ -143,10 +145,12 @@ def cv_for_hp(reg):
         'min_samples_split': [2, 5, 7],
         # 'oob_score': [True],
     }
-    searcher = RandomizedSearchCV(reg, param_distributions=param_distributions, n_iter=50, n_jobs=-1, cv=5, verbose=3)
+    searcher = GridSearchCV(estimator=reg, param_grid=params, n_jobs=2, cv=5, verbose=3)
     searcher.fit(X_train, y_train)
     print('\n best_R2: \n:', searcher.best_score_)
     print('best parameters:\t', searcher.best_params_)
+    if store:
+        joblib.dump(reg, 'Grid_search')
 
 def generate_sets(filename):
     df = pd.read_csv(filename)
