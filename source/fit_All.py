@@ -23,7 +23,7 @@ def visualization(reg_model, _x_test, _y_test, write=False):
     plt.show()
 
     if write:
-        housing = list(csv.reader(open('../data/housing_all_new.csv', encoding='utf-8', errors='ignore')))
+        housing = list(csv.reader(open('../data/housing_all_clean.csv', encoding='utf-8', errors='ignore')))
         list_bad = open('../data/error_list.csv', 'a', newline='', encoding='utf-8')
         writer = csv.writer(list_bad, dialect='excel')
         title = housing[0]
@@ -102,7 +102,7 @@ def gradient_boosting(_features, _x_train, _x_test, _y_train, _y_test, store=Tru
     if load:
         reg_gradient = joblib.load('GB')
     else:
-        reg_gradient = GradientBoostingRegressor(n_estimators=200, min_samples_split=7, max_depth=6)
+        reg_gradient = GradientBoostingRegressor(n_estimators=80, min_samples_split=7, max_depth=5)
         reg_gradient.fit(_x_train, _y_train)
         if store:
             joblib.dump(reg_gradient, 'GB')
@@ -206,7 +206,7 @@ def generate_sets(filename):
                  # df.accom_ave_price, df.accommodates_s,
                  # df.subway, df.guests, df.park, df.bedroom, df.beds, df.response_time_num, df.crime_rate,
 
-                 # df.One_world_trade_cente, df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
+                 # df.Central_Park, df.One_world_trade_cente, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
                  # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
                  # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
                  # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street,
@@ -226,13 +226,13 @@ def generate_sets(filename):
 
 
 if __name__ == '__main__':
-    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_new.csv')
+    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean.csv')
 
     # linear_try_each_factors(features, X_train, X_test, y_train, y_test)
-    # reg3, score1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
+    # reg1, score1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
     # reg2, score2 = random_forest(features, X_train, X_test, y_train, y_test)
     reg3, score3 = xg_boost(features, X_train, X_test, y_train, y_test)
     visualization(reg3, X_test, y_test, write=True)
     # cv_for_hp(reg1, X_train, y_train)
 
-    # testing_r2('../data/housing_all_new.csv')
+    # testing_r2('../data/housing_all_clean.csv')

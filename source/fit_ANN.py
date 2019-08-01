@@ -30,18 +30,18 @@ def training(n1, n2, n3):
 def trying():
     best_score = 0
     nodes = []
-    # for n3 in range(10, 80, 10):
-    #     for n2 in random.randint(20, 90):
-    #         for n1 in random.randint(30, 100):
-    for i in range(100):
-        n1 = random.randint(30, 100)
-        n2 = random.randint(20, 90)
-        n3 = random.randint(10, 80)
-        mm = training(n1, n2, n3)
-        if mm > best_score:
-            best_score = mm
-            nodes = [n1, n2, n3]
-        print('\tBest: ', 'Nodes: ', nodes, '\t\tScore: ', best_score)
+    # for i in range(100):
+    #     n1 = random.randint(30, 120)
+    #     n2 = random.randint(20, 100)
+    #     n3 = random.randint(10, 90)
+    for n3 in range(10, 80, 5):
+        for n2 in range(20, 100, 5):
+            for n1 in range(30, 120, 5):
+                mm = training(n1, n2, n3)
+                if mm > best_score:
+                    best_score = mm
+                    nodes = [n1, n2, n3]
+                print('\tBest: ', 'Nodes: ', nodes, '\t\tScore: ', best_score)
 
 def generate_data(filename):
     df = pd.read_csv(filename)
@@ -56,27 +56,35 @@ def generate_data(filename):
     df['beds_for_each'] = df.accommodates / df.beds
     df['park_scenery'] = df.park * df.scenery
     df['accom_ave_price'] = df.accommodates * df.ave_price
+    df['ava_acc'] = df.availability * df.accommodates
+    df['ava_bedroom'] = df.availability * df.bedroom
 
-    _features = [df.house_ln, df.house_la, df.Entire_home, df.accommodates, df.scenery,
-                 df.bathroom, df.host_response_rate, df.num_of_review,
-                 df.sub_dist_1, df.sub_dist_2, df.sub_dist_3, df.bus_stop,
-                 # df.accom_ave_price,
-                 df.beds_for_each, df.bedroom_for_each, df.park_scenery, df.accom_bedroom,
+    _features = [df.house_ln, df.house_la, df.Entire_home, df.accommodates, df.Shared_room, df.Private_room,
+                 df.scenery, df.bathroom, df.availability,
+                 # df.Brooklyn, df.Manhattan,
+                 # df.Queens, df.Staten, df.Bronx, df.ave_price,
 
-                 df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york, df.Empire_state_Building,
-                 # df.intrepid_sea_air, df.Washington_Square_Park, df.New_york_Public_Library, df.Times_Square,
-                 # df.New_York_University, df.Grand_Centreal_Terminal, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
+                 df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york,
+                 # df.Empire_state_Building, df.Washington_Square_Park, df.Grand_Centreal_Terminal,
+                 # df.intrepid_sea_air, df.New_york_Public_Library, df.Times_Square,
+                 # df.New_York_University, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
                  # df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters,
-                 # df.One_world_trade_cente, df.Central_Park, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
+
+                 df.host_response_rate, df.num_of_review,
+                 df.sub_dist_1, df.sub_dist_2, df.sub_dist_3, df.bus_stop,
+
+                 df.beds_for_each, df.bedroom_for_each, df.park_scenery, df.accom_bedroom, df.ava_acc, df.ava_bedroom
+                 # df.accom_ave_price, df.accommodates_s,
+                 # df.subway, df.guests, df.park, df.bedroom, df.beds, df.response_time_num, df.crime_rate,
+
+                 # df.Central_Park, df.One_world_trade_cente, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
                  # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
                  # df.Fort_Tilden, df.Greenbelt, df.The_Metropolitan_Museum_of_Art, df.statue_of_liberty,
                  # df.American_Museum_of_Natual_History, df.Fifth_Avenue, df.Brooklyn_Bridge, df.Wall_Street,
                  # df.Broadway, df.China_Town, df.West_Point_Academy, df.Columbia_University,
                  # df.National_September_11_Memorial_Museum, df.SOHO, df.High_Line_Park,
 
-                 # df.Brooklyn, df.Manhattan, df.Queens, df.Staten, df.Bronx, df.ave_price,
-                 # df.guests, df.park, df.bedroom, df.beds, df.response_time_num, df.subway, df.crime_rate,
-                 # df.subway_s, df.accommodates_s, df.scenery_s, df.beds_s, df.bedroom_s,
+                 # df.subway_s, df.scenery_s, df.beds_s, df.bedroom_s,
                  ]
 
     # dataset = pd.concat(features, axis=1)
@@ -95,6 +103,6 @@ def generate_data(filename):
 
 if __name__ == '__main__':
     X_train, X_test, y_train, y_test = generate_data('../data/housing_all_clean.csv')
-    # trying()
-    training(80, 50, 40)
+    trying()
+    # training(80, 50, 40)
     # 90 90 20
