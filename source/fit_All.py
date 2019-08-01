@@ -9,10 +9,45 @@ from sklearn.ensemble import AdaBoostRegressor
 from xgboost.sklearn import XGBRegressor
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.preprocessing import scale
+from sklearn.metrics import mean_squared_error
 import joblib
 import matplotlib.pyplot as plt
 import csv
 
+
+def rmse_esimator(_x_train, _x_test, _y_train, _y_test):
+    train_score = []
+    test_score = []
+    for n in range(1, 100):
+        reg = GradientBoostingRegressor(n_estimators=n, min_samples_split=7, max_depth=5)
+        reg.fit(_x_train, _y_train)
+        pred1 = reg.predict(_x_train)
+        pred2 = reg.predict(_x_test)
+        train_score.append(np.sqrt(mean_squared_error(pred1, _y_train)))
+        test_score.append(np.sqrt(mean_squared_error(pred2, _y_test)))
+        print(n, 'estimators done!')
+    plt.plot(range(1, 100), train_score, color='skyblue', label='training')
+    plt.plot(range(1, 100), test_score, color='red', label='testing')
+    plt.legend()
+    plt.xlabel('number of estimators')
+    plt.ylabel('RMSE')
+    plt.show()
+
+def R2_estimator(_x_train, _x_test, _y_train, _y_test):
+    train_score = []
+    test_score = []
+    for n in range(1, 100):
+        reg = XGBRegressor(n_estimators=n, min_samples_split=7, max_depth=5)
+        reg.fit(_x_train, _y_train)
+        train_score.append(reg.score(_x_train, _y_train))
+        test_score.append(reg.score(_x_test, _y_test))
+        print(n, 'estimators done!')
+    plt.plot(range(1, 100), train_score, color='skyblue', label='training')
+    plt.plot(range(1, 100), test_score, color='red', label='testing')
+    plt.legend()
+    plt.xlabel('number of estimators')
+    plt.ylabel('$R^2$ score')
+    plt.show()
 
 def visualization(reg_model, _x_test, _y_test, write=False):
     pred = reg_model.predict(_x_test)
@@ -62,15 +97,17 @@ def linear_try_each_factors(_features, _x_train, _x_test, _y_train, _y_test):
 
 def try_all_models(_x_train, _x_test, _y_train, _y_test):
     reg_line = LinearRegression()
-    reg_tree = DecisionTreeRegressor()
+    reg_tree = DecisionTreeRegressor(max_depth=12)
     reg_bagging = BaggingRegressor()
-    reg_Forest = RandomForestRegressor()
+    reg_Forest = RandomForestRegressor(n_estimators=50)
     reg_boosting = GradientBoostingRegressor()
+    reg_ada = AdaBoostRegressor()
+    reg_xgb = XGBRegressor()
 
-    reg_name = ['Linear', 'Tree', 'Bagging', 'Forest', 'Boosting']
-    reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting]
+    reg_name = ['Linear', 'Tree', 'Bagging', 'Forest', 'Boosting', 'AdaBoost', 'XGBoost']
+    reg_all = [reg_line, reg_tree, reg_bagging, reg_Forest, reg_boosting, reg_ada, reg_xgb]
     for reg, name in zip(reg_all, reg_name):
-        print(name, ': ')
+        print('\n', name, ': ')
         reg.fit(_x_train, _y_train)
         print('Train score: ', reg.score(_x_train, _y_train))
         print('Test score: ', reg.score(_x_test, _y_test))
@@ -79,7 +116,7 @@ def random_forest(_features, _x_train, _x_test, _y_train, _y_test, store=True, l
     if load:
         reg_Forest = joblib.load('RF')
     else:
-        reg_Forest = RandomForestRegressor(n_estimators=150, min_samples_split=5, max_depth=10, n_jobs=2)
+        reg_Forest = RandomForestRegressor(n_estimators=150, min_samples_split=7, max_depth=7, n_jobs=2)
         reg_Forest.fit(_x_train, _y_train)
         if store:
             joblib.dump(reg_Forest, 'RF')
@@ -188,23 +225,26 @@ def generate_sets(filename):
     df['ava_bedroom'] = df.availability * df.bedroom
     # df['accom_ave_price'] = df.accommodates * df.ave_price
 
-    _features = [df.house_ln, df.house_la, df.Entire_home, df.accommodates, df.Shared_room, df.Private_room,
-                 df.scenery, df.bathroom, df.availability,
+    _features = [df.house_ln, df.house_la, df.Entire_home, df.accommodates, df.Shared_room,
+                 df.scenery, df.bathroom,
+                 df.host_response_rate, df.num_of_review,
+                 df.sub_dist_1, df.sub_dist_2, df.sub_dist_3, df.bus_stop,
+                 df.accommodates_s, df.bedroom_s,
+                 df.beds_for_each, df.bedroom_for_each, df.park_scenery, df.accom_bedroom,
+                 df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york,
+                 df.availability, df.ava_acc, df.ava_bedroom,
+
                  # df.Brooklyn, df.Manhattan,
                  # df.Queens, df.Staten, df.Bronx, df.ave_price,
 
-                 df.Madison_Square_Garden, df.Flatiron_Building, df.madame_tussauds_new_york,
                  # df.Empire_state_Building, df.Washington_Square_Park, df.Grand_Centreal_Terminal,
                  # df.intrepid_sea_air, df.New_york_Public_Library, df.Times_Square,
                  # df.New_York_University, df.Top_of_the_Rock, df.St_Patrick_Cathedral,
                  # df.Museum_of_Modern_Art, df.Manhattan_Skyline, df.United_Nations_Headquarters,
 
-                 df.host_response_rate, df.num_of_review,
-                 df.sub_dist_1, df.sub_dist_2, df.sub_dist_3, df.bus_stop,
-
-                 df.beds_for_each, df.bedroom_for_each, df.park_scenery, df.accom_bedroom, df.ava_acc, df.ava_bedroom
-                 # df.accom_ave_price, df.accommodates_s,
-                 # df.subway, df.guests, df.park, df.bedroom, df.beds, df.response_time_num, df.crime_rate,
+                 # df.accom_ave_price,
+                 # df.subway, df.guests, df.park, df.bedroom, df.beds, df.response_time_num,
+                 # df.crime_rate, df.Private_room,
 
                  # df.Central_Park, df.One_world_trade_cente, df.Van_Cortlandt, df.Flushing_Meadows, df.Prospect_Park,
                  # df.Bronx_Park, df.Pelham_Bay_Park, df.Floyd_Bennet_Field, df.Jamaica_Bay, df.Jacob_Riis_Park,
@@ -213,12 +253,21 @@ def generate_sets(filename):
                  # df.Broadway, df.China_Town, df.West_Point_Academy, df.Columbia_University,
                  # df.National_September_11_Memorial_Museum, df.SOHO, df.High_Line_Park,
 
-                 # df.subway_s, df.scenery_s, df.beds_s, df.bedroom_s,
+                 # df.subway_s, df.scenery_s, df.beds_s,
                  ]
 
     _x = pd.concat(_features, axis=1).astype(dtype='float64', copy=False)
     features_name = _x.columns.values
     _y = df.daily_price
+
+    for line in _x:
+        for each in line:
+            if each == ' ':
+                print(line[0])
+
+    for each in _y:
+        if each == '' or each == ' ':
+            print(each)
 
     _x_train, _x_test, _y_train, _y_test = train_test_split(_x.values, _y.values, test_size=0.2)
     # return scale(_x_train), scale(_x_test), _y_train, _y_test, features_name
@@ -226,13 +275,17 @@ def generate_sets(filename):
 
 
 if __name__ == '__main__':
-    X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean.csv')
+    # X_train, X_test, y_train, y_test, features = generate_sets('../data/housing_all_clean.csv')
 
     # linear_try_each_factors(features, X_train, X_test, y_train, y_test)
+    # try_all_models(X_train, X_test, y_train, y_test)
     # reg1, score1 = gradient_boosting(features, X_train, X_test, y_train, y_test)
     # reg2, score2 = random_forest(features, X_train, X_test, y_train, y_test)
-    reg3, score3 = xg_boost(features, X_train, X_test, y_train, y_test)
-    visualization(reg3, X_test, y_test, write=True)
+    # reg3, score3 = xg_boost(features, X_train, X_test, y_train, y_test)
+    # visualization(reg3, X_test, y_test, write=True)
     # cv_for_hp(reg1, X_train, y_train)
 
-    # testing_r2('../data/housing_all_clean.csv')
+    testing_r2('../data/housing_all_clean.csv')
+
+    # R2_estimator(X_train, X_test, y_train, y_test)
+    # rmse_esimator(X_train, X_test, y_train, y_test)

@@ -6,6 +6,8 @@ from sklearn.metrics import mean_squared_error as mse
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 import random
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def setup_nn(n1, n2, n3, dim):
@@ -16,6 +18,26 @@ def setup_nn(n1, n2, n3, dim):
     model.add(layers.Dense(1, kernel_initializer='normal', activation='linear'))
     model.compile(loss='mean_squared_error', optimizer='Adam')
     return model
+
+def R2_epochs():
+    n = 30
+    train_score = []
+    test_score = []
+    for i in range(1, n):
+        model = setup_nn(75, 75, 75, X_train.shape[1])
+        model.fit(X_train, y_train, batch_size=32, epochs=i, verbose=0)
+        y_predict1 = model.predict(X_train)
+        y_predict2 = model.predict(X_test)
+        train_score.append(np.sqrt(mse(y_train, y_predict1)))
+        test_score.append(np.sqrt(mse(y_test, y_predict2)))
+        print(i, 'epochs done!')
+    plt.plot(range(1, n), train_score, color='skyblue', label='training')
+    plt.plot(range(1, n), test_score, color='red', label='testing')
+    plt.legend()
+    plt.xlabel('epochs')
+    plt.ylabel('RMSE')
+    plt.show()
+
 
 def training(n1, n2, n3):
     model = setup_nn(n1, n2, n3, X_train.shape[1])
@@ -103,6 +125,9 @@ def generate_data(filename):
 
 if __name__ == '__main__':
     X_train, X_test, y_train, y_test = generate_data('../data/housing_all_clean.csv')
-    trying()
+    # trying()
     # training(80, 50, 40)
     # 90 90 20
+    R2_epochs()
+
+
